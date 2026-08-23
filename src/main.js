@@ -1,7 +1,9 @@
 import './style.css';
-import * as pdfjsLib from 'pdfjs-dist';
 
+import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?url';
+
+import { PdfLayer } from './PdfLayer.js';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -9,160 +11,195 @@ const app = document.querySelector('#app');
 
 app.innerHTML = `
     <div class="app">
+
         <header class="toolbar">
             <h1>PDF Comparator</h1>
-
-            <label class="file-button">
-                Open PDF
-                <input id="pdfInput" type="file" accept="application/pdf">
-            </label>
-
-            <div class="page-controls">
-                <button id="previousPage" disabled>←</button>
-
-                <span>
-                    Page
-                    <strong id="pageNumber">0</strong>
-                    /
-                    <strong id="pageCount">0</strong>
-                </span>
-
-                <button id="nextPage" disabled>→</button>
-            </div>
         </header>
 
+        <section class="file-toolbar">
+
+            <div class="file-control">
+                <label class="file-button">
+                    Open PDF A
+                    <input
+                        id="pdfAInput"
+                        type="file"
+                        accept="application/pdf"
+                    >
+                </label>
+
+                <span id="pdfAName">
+                    No file selected
+                </span>
+            </div>
+
+            <div class="file-control">
+                <label class="file-button">
+                    Open PDF B
+                    <input
+                        id="pdfBInput"
+                        type="file"
+                        accept="application/pdf"
+                    >
+                </label>
+
+                <span id="pdfBName">
+                    No file selected
+                </span>
+            </div>
+
+        </section>
+
         <main class="viewer-container">
+
             <div class="viewer">
-                <canvas id="pdfCanvas"></canvas>
+
+                <div class="comparison-stage">
+
+                    <canvas id="pdfCanvasA"></canvas>
+
+                    <canvas id="pdfCanvasB"></canvas>
+
+                </div>
 
                 <div id="emptyState" class="empty-state">
-                    <h2>No PDF selected</h2>
-                    <p>Choose a PDF file to start.</p>
+                    <h2>Open two PDF files</h2>
+                    <p>
+                        The second PDF will appear above the first one.
+                    </p>
                 </div>
+
             </div>
+
         </main>
+
+        <section class="controls">
+
+            <div class="layer-control">
+                <strong>PDF A</strong>
+
+                <span>
+                    Page:
+                    <strong id="pageA">0</strong>
+                    /
+                    <strong id="countA">0</strong>
+                </span>
+            </div>
+
+            <div class="layer-control">
+                <strong>PDF B</strong>
+
+                <span>
+                    Page:
+                    <strong id="pageB">0</strong>
+                    /
+                    <strong id="countB">0</strong>
+                </span>
+
+                <label>
+                    Opacity:
+                    <input
+                        id="opacityB"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.5"
+                    >
+
+                    <span id="opacityValue">50%</span>
+                </label>
+            </div>
+
+        </section>
+
     </div>
 `;
 
-const pdfInput = document.querySelector('#pdfInput');
-const canvas = document.querySelector('#pdfCanvas');
-const context = canvas.getContext('2d');
+const pdfAInput = document.querySelector('#pdfAInput');
+const pdfBInput = document.querySelector('#pdfBInput');
 
-const previousPageButton = document.querySelector('#previousPage');
-const nextPageButton = document.querySelector('#nextPage');
+const pdfAName = document.querySelector('#pdfAName');
+const pdfBName = document.querySelector('#pdfBName');
 
-const pageNumberElement = document.querySelector('#pageNumber');
-const pageCountElement = document.querySelector('#pageCount');
+const pageA = document.querySelector('#pageA');
+const countA = document.querySelector('#countA');
+
+const pageB = document.querySelector('#pageB');
+const countB = document.querySelector('#countB');
+
+const opacityB = document.querySelector('#opacityB');
+const opacityValue = document.querySelector('#opacityValue');
 
 const emptyState = document.querySelector('#emptyState');
 
-let pdfDocument = null;
-let currentPage = 1;
-let rendering = false;
-let pendingPage = null;
+const canvasA = document.querySelector('#pdfCanvasA');
+const canvasB = document.querySelector('#pdfCanvasB');
 
-async function renderPage(pageNumber) {
-    if (!pdfDocument) {
-        return;
-    }
+const layerA = new PdfLayer(canvasA);
+const layerB = new PdfLayer(canvasB);
 
-    if (rendering) {
-        pendingPage = pageNumber;
-        return;
-    }
+layerA.setPosition(0, 30);
+layerB.setPosition(0, 30);
 
-    rendering = true;
+layerA.setScale(1);
+layerB.setScale(1);
 
-    const page = await pdfDocument.getPage(pageNumber);
+layerA.setOpacity(1);
+layerB.setOpacity(0.5);
 
-    const viewport = page.getViewport({
-        scale: 1.5
-    });
-
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-
-    await page.render({
-        canvasContext: context,
-        viewport
-    }).promise;
-
-    pageNumberElement.textContent = currentPage;
-
-    rendering = false;
-
-    if (pendingPage !== null) {
-        const nextPage = pendingPage;
-        pendingPage = null;
-
-        await renderPage(nextPage);
-    }
-}
-
-async function loadPdf(file) {
-    const arrayBuffer = await file.arrayBuffer();
-
-    pdfDocument = await pdfjsLib.getDocument({
-        data: arrayBuffer
-    }).promise;
-
-    currentPage = 1;
-
-    pageCountElement.textContent = pdfDocument.numPages;
-
-    previousPageButton.disabled = true;
-    nextPageButton.disabled = pdfDocument.numPages <= 1;
-
-    emptyState.hidden = true;
-    canvas.hidden = false;
-
-    await renderPage(currentPage);
-}
-
-pdfInput.addEventListener('change', async (event) => {
+pdfAInput.addEventListener('change', async (event) => {
     const file = event.target.files[0];
 
     if (!file) {
         return;
     }
 
-    if (file.type !== 'application/pdf') {
-        alert('Please select a PDF file.');
+    try {
+        await layerA.load(file, pdfjsLib);
+
+        pdfAName.textContent = file.name;
+        pageA.textContent = layerA.page;
+        countA.textContent = layerA.document.numPages;
+
+        updateEmptyState();
+    } catch (error) {
+        console.error('Failed to load PDF A:', error);
+        alert('Failed to load PDF A.');
+    }
+});
+
+pdfBInput.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+
+    if (!file) {
         return;
     }
 
     try {
-        await loadPdf(file);
+        await layerB.load(file, pdfjsLib);
+
+        pdfBName.textContent = file.name;
+        pageB.textContent = layerB.page;
+        countB.textContent = layerB.document.numPages;
+
+        updateEmptyState();
     } catch (error) {
-        console.error('Failed to load PDF:', error);
-        alert('Failed to load the PDF file.');
+        console.error('Failed to load PDF B:', error);
+        alert('Failed to load PDF B.');
     }
 });
 
-previousPageButton.addEventListener('click', async () => {
-    if (!pdfDocument || currentPage <= 1) {
-        return;
-    }
+opacityB.addEventListener('input', () => {
+    const value = Number(opacityB.value);
 
-    currentPage--;
+    layerB.setOpacity(value);
 
-    previousPageButton.disabled = currentPage <= 1;
-    nextPageButton.disabled = false;
-
-    await renderPage(currentPage);
+    opacityValue.textContent = `${Math.round(value * 100)}%`;
 });
 
-nextPageButton.addEventListener('click', async () => {
-    if (!pdfDocument || currentPage >= pdfDocument.numPages) {
-        return;
+function updateEmptyState() {
+    if (layerA.document || layerB.document) {
+        emptyState.hidden = true;
     }
-
-    currentPage++;
-
-    nextPageButton.disabled = currentPage >= pdfDocument.numPages;
-    previousPageButton.disabled = false;
-
-    await renderPage(currentPage);
-});
-
-canvas.hidden = true;
+}

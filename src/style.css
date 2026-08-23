@@ -36,11 +36,10 @@ input {
 }
 
 .toolbar {
-    min-height: 64px;
+    min-height: 60px;
 
     display: flex;
     align-items: center;
-    gap: 20px;
 
     padding: 12px 20px;
 
@@ -50,16 +49,31 @@ input {
 
 .toolbar h1 {
     margin: 0;
-    margin-right: auto;
 
     font-size: 20px;
+}
+
+.file-toolbar {
+    display: flex;
+    gap: 30px;
+
+    padding: 12px 20px;
+
+    background: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.file-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .file-button {
     display: inline-flex;
     align-items: center;
 
-    padding: 9px 14px;
+    padding: 8px 12px;
 
     border-radius: 6px;
 
@@ -73,29 +87,6 @@ input {
 
 .file-button input {
     display: none;
-}
-
-.page-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.page-controls button {
-    width: 34px;
-    height: 34px;
-
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-
-    background: #ffffff;
-
-    cursor: pointer;
-}
-
-.page-controls button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
 }
 
 .viewer-container {
@@ -116,22 +107,39 @@ input {
 
     overflow: auto;
 
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-
-    padding: 30px;
-
     background: #adb5bd;
 }
 
-#pdfCanvas {
-    display: block;
+.comparison-stage {
+    position: absolute;
+
+    top: 30px;
+    left: 50%;
+
+    width: 0;
+    height: 0;
+}
+
+.comparison-stage canvas {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    transform-origin: top center;
 
     background: #ffffff;
 
     box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#pdfCanvasA {
+    z-index: 1;
+}
+
+#pdfCanvasB {
+    z-index: 2;
 }
 
 .empty-state {
@@ -142,15 +150,36 @@ input {
 
     transform: translate(-50%, -50%);
 
+    z-index: 10;
+
     text-align: center;
 
     color: #495057;
 }
 
-.empty-state h2 {
-    margin-bottom: 8px;
+.controls {
+    display: flex;
+    gap: 50px;
+
+    padding: 14px 20px;
+
+    background: #ffffff;
+
+    border-top: 1px solid #dee2e6;
 }
 
-.empty-state p {
-    margin: 0;
+.layer-control {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.layer-control label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.layer-control input[type="range"] {
+    width: 160px;
 }
