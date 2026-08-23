@@ -33,6 +33,7 @@ input {
 
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .toolbar {
@@ -203,4 +204,521 @@ input {
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.layer-panel {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 14px;
+
+    min-width: 300px;
+
+    background: #ffffff;
+
+    border: 1px solid #dee2e6;
+
+    border-radius: 8px;
+}
+
+.panel-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid #e9ecef;
+}
+
+.values {
+    display: flex;
+
+    gap: 14px;
+
+    font-size: 13px;
+}
+
+.control-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.control-title {
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #6c757d;
+}
+
+.button-row {
+    display: flex;
+
+    gap: 5px;
+}
+
+.button-row button,
+.direction-grid button,
+.reset-position {
+    border: 1px solid #ced4da;
+
+    background: #f8f9fa;
+
+    color: #212529;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+.button-row button {
+    min-width: 44px;
+
+    height: 34px;
+}
+
+.button-row button:hover,
+.direction-grid button:hover,
+.reset-position:hover {
+    background: #e9ecef;
+}
+
+.direction-grid {
+    display: grid;
+
+    grid-template-columns:
+        40px
+        40px
+        40px;
+
+    grid-template-rows:
+        34px
+        34px;
+
+    gap: 4px;
+
+    justify-content: start;
+}
+
+.direction-grid button:nth-child(1) {
+    grid-column: 2;
+}
+
+.direction-grid button:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.direction-grid button:nth-child(3) {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.direction-grid button:nth-child(4) {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.reset-position {
+    width: fit-content;
+
+    padding: 6px 10px;
+
+    font-size: 12px;
+}
+
+.opacity-control {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.opacity-control input {
+    width: 160px;
+}
+
+.active-layer-control {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 10px 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #dee2e6;
+
+    border-radius: 8px;
+}
+
+.active-layer-control label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+/* ==================================================
+   CONTROL PANEL
+================================================== */
+
+.control-panel {
+    width: 100%;
+
+    background: #ffffff;
+
+    border-top: 1px solid #dee2e6;
+
+    box-shadow:
+        0 -4px 15px rgba(0, 0, 0, 0.08);
+
+    z-index: 100;
+
+    flex-shrink: 0;
+}
+
+.control-panel[hidden] {
+    display: none;
+}
+
+.control-panel-header {
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 16px;
+
+    border-bottom: 1px solid #e9ecef;
+}
+
+.control-panel-header button {
+    border: 1px solid #ced4da;
+
+    background: #f8f9fa;
+
+    padding: 5px 10px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+}
+
+.control-panel-header button:hover {
+    background: #e9ecef;
+}
+
+
+/* ==================================================
+   CONTROLS
+================================================== */
+
+.controls {
+    display: flex;
+
+    align-items: stretch;
+
+    gap: 12px;
+
+    padding: 12px 16px;
+
+    overflow-x: auto;
+}
+
+
+/* ==================================================
+   LAYER PANEL
+================================================== */
+
+.layer-panel {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    min-width: 280px;
+
+    padding: 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #dee2e6;
+
+    border-radius: 8px;
+}
+
+.panel-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-bottom: 7px;
+
+    border-bottom: 1px solid #e9ecef;
+
+    font-size: 13px;
+}
+
+.values {
+    display: flex;
+
+    gap: 12px;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+.control-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.control-title {
+    font-size: 11px;
+
+    font-weight: 600;
+
+    color: #6c757d;
+}
+
+
+/* ==================================================
+   BUTTONS
+================================================== */
+
+.button-row {
+    display: flex;
+
+    gap: 5px;
+}
+
+.button-row button {
+    width: 44px;
+
+    height: 32px;
+
+    border: 1px solid #ced4da;
+
+    background: #f8f9fa;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+.button-row button:nth-child(2) {
+    width: 60px;
+
+    font-size: 11px;
+}
+
+.button-row button:hover {
+    background: #e9ecef;
+}
+
+
+/* ==================================================
+   DIRECTION BUTTONS
+================================================== */
+
+.direction-grid {
+    display: grid;
+
+    grid-template-columns:
+        38px
+        38px
+        38px;
+
+    grid-template-rows:
+        30px
+        30px;
+
+    gap: 3px;
+
+    width: fit-content;
+}
+
+.direction-grid button {
+    width: 38px;
+
+    height: 30px;
+
+    border: 1px solid #ced4da;
+
+    background: #f8f9fa;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+.direction-grid button:hover {
+    background: #e9ecef;
+}
+
+.direction-grid button:nth-child(1) {
+    grid-column: 2;
+}
+
+.direction-grid button:nth-child(2) {
+    grid-column: 1;
+
+    grid-row: 2;
+}
+
+.direction-grid button:nth-child(3) {
+    grid-column: 3;
+
+    grid-row: 2;
+}
+
+.direction-grid button:nth-child(4) {
+    grid-column: 2;
+
+    grid-row: 3;
+}
+
+
+/* ==================================================
+   RESET POSITION
+================================================== */
+
+.reset-position {
+    width: fit-content;
+
+    padding: 5px 9px;
+
+    border: 1px solid #ced4da;
+
+    background: #f8f9fa;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 11px;
+}
+
+.reset-position:hover {
+    background: #e9ecef;
+}
+
+
+/* ==================================================
+   OPACITY
+================================================== */
+
+.opacity-control {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.opacity-control input {
+    width: 140px;
+}
+
+
+/* ==================================================
+   ACTIVE LAYER
+================================================== */
+
+.active-layer-control {
+    display: flex;
+
+    align-items: center;
+
+    align-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    min-width: 170px;
+
+    padding: 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #dee2e6;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+}
+
+.active-layer-control label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+}
+
+
+/* ==================================================
+   SHOW CONTROLS
+================================================== */
+
+.show-controls {
+    position: fixed;
+
+    right: 16px;
+
+    bottom: 12px;
+
+    z-index: 200;
+
+    border: 1px solid #ced4da;
+
+    background: #ffffff;
+
+    padding: 7px 13px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.12);
+
+    font-size: 12px;
+}
+
+.show-controls:hover {
+    background: #f8f9fa;
+}
+
+.show-controls[hidden] {
+    display: none;
 }
