@@ -183,3 +183,24 @@ input {
 .layer-control input[type="range"] {
     width: 160px;
 }
+
+.viewer {
+    cursor: grab;
+    touch-action: none;
+}
+
+.viewer.dragging {
+    cursor: grabbing;
+}
+
+.active-layer-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.active-layer-control label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
