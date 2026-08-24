@@ -33,8 +33,14 @@ input {
 
     display: flex;
     flex-direction: column;
+
     overflow: hidden;
 }
+
+
+/* ==================================================
+   MAIN TOOLBAR
+================================================== */
 
 .toolbar {
     min-height: 60px;
@@ -45,6 +51,7 @@ input {
     padding: 12px 20px;
 
     background: #ffffff;
+
     border-bottom: 1px solid #dee2e6;
 }
 
@@ -54,24 +61,34 @@ input {
     font-size: 20px;
 }
 
+
+/* ==================================================
+   FILE TOOLBAR
+================================================== */
+
 .file-toolbar {
     display: flex;
+
     gap: 30px;
 
     padding: 12px 20px;
 
     background: #ffffff;
+
     border-bottom: 1px solid #dee2e6;
 }
 
 .file-control {
     display: flex;
+
     align-items: center;
+
     gap: 10px;
 }
 
 .file-button {
     display: inline-flex;
+
     align-items: center;
 
     padding: 8px 12px;
@@ -79,6 +96,7 @@ input {
     border-radius: 6px;
 
     background: #212529;
+
     color: #ffffff;
 
     cursor: pointer;
@@ -89,6 +107,200 @@ input {
 .file-button input {
     display: none;
 }
+
+
+/* ==================================================
+   PAGE TOOLBAR
+   خارج PDF Comparison Controls
+================================================== */
+
+.page-toolbar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 8px 16px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #dee2e6;
+
+    flex-shrink: 0;
+
+    z-index: 150;
+}
+
+.page-toolbar-section {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.page-navigation {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+.page-navigation button {
+    width: 36px;
+
+    height: 32px;
+
+    border: 1px solid #ced4da;
+
+    background: #f8f9fa;
+
+    color: #212529;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    line-height: 1;
+}
+
+.page-navigation button:hover:not(:disabled) {
+    background: #e9ecef;
+}
+
+.page-navigation button:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+}
+
+.page-information {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    min-width: 100px;
+
+    justify-content: center;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+
+.page-information strong {
+    font-weight: 700;
+}
+
+.page-layer-label {
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #6c757d;
+}
+
+
+/* ==================================================
+   PAGE SYNC
+================================================== */
+
+.page-sync-control {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 6px 10px;
+
+    background: #f8f9fa;
+
+    border: 1px solid #dee2e6;
+
+    border-radius: 6px;
+
+    white-space: nowrap;
+}
+
+.page-sync-control > strong {
+    font-size: 12px;
+}
+
+.sync-toggle {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.sync-toggle input {
+    margin: 0;
+
+    cursor: pointer;
+}
+
+
+/* ==================================================
+   OPACITY
+   خارج PDF Comparison Controls
+================================================== */
+
+.page-opacity-control {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 6px 10px;
+
+    background: #f8f9fa;
+
+    border: 1px solid #dee2e6;
+
+    border-radius: 6px;
+
+    white-space: nowrap;
+}
+
+.page-opacity-control .control-title {
+    margin: 0;
+}
+
+.page-opacity-control input[type="range"] {
+    width: 140px;
+
+    cursor: pointer;
+}
+
+.page-opacity-value {
+    min-width: 38px;
+
+    text-align: right;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+/* ==================================================
+   VIEWER
+================================================== */
 
 .viewer-container {
     flex: 1;
@@ -109,7 +321,20 @@ input {
     overflow: auto;
 
     background: #adb5bd;
+
+    cursor: grab;
+
+    touch-action: none;
 }
+
+.viewer.dragging {
+    cursor: grabbing;
+}
+
+
+/* ==================================================
+   COMPARISON STAGE
+================================================== */
 
 .comparison-stage {
     position: absolute;
@@ -143,6 +368,11 @@ input {
     z-index: 2;
 }
 
+
+/* ==================================================
+   EMPTY STATE
+================================================== */
+
 .empty-state {
     position: absolute;
 
@@ -158,218 +388,7 @@ input {
     color: #495057;
 }
 
-.controls {
-    display: flex;
-    gap: 50px;
 
-    padding: 14px 20px;
-
-    background: #ffffff;
-
-    border-top: 1px solid #dee2e6;
-}
-
-.layer-control {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.layer-control label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.layer-control input[type="range"] {
-    width: 160px;
-}
-
-.viewer {
-    cursor: grab;
-    touch-action: none;
-}
-
-.viewer.dragging {
-    cursor: grabbing;
-}
-
-.active-layer-control {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.active-layer-control label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.layer-panel {
-    display: flex;
-    flex-direction: column;
-
-    gap: 12px;
-
-    padding: 14px;
-
-    min-width: 300px;
-
-    background: #ffffff;
-
-    border: 1px solid #dee2e6;
-
-    border-radius: 8px;
-}
-
-.panel-header {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding-bottom: 8px;
-
-    border-bottom: 1px solid #e9ecef;
-}
-
-.values {
-    display: flex;
-
-    gap: 14px;
-
-    font-size: 13px;
-}
-
-.control-group {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 7px;
-}
-
-.control-title {
-    font-size: 12px;
-
-    font-weight: 600;
-
-    color: #6c757d;
-}
-
-.button-row {
-    display: flex;
-
-    gap: 5px;
-}
-
-.button-row button,
-.direction-grid button,
-.reset-position {
-    border: 1px solid #ced4da;
-
-    background: #f8f9fa;
-
-    color: #212529;
-
-    border-radius: 5px;
-
-    cursor: pointer;
-}
-
-.button-row button {
-    min-width: 44px;
-
-    height: 34px;
-}
-
-.button-row button:hover,
-.direction-grid button:hover,
-.reset-position:hover {
-    background: #e9ecef;
-}
-
-.direction-grid {
-    display: grid;
-
-    grid-template-columns:
-        40px
-        40px
-        40px;
-
-    grid-template-rows:
-        34px
-        34px;
-
-    gap: 4px;
-
-    justify-content: start;
-}
-
-.direction-grid button:nth-child(1) {
-    grid-column: 2;
-}
-
-.direction-grid button:nth-child(2) {
-    grid-column: 1;
-    grid-row: 2;
-}
-
-.direction-grid button:nth-child(3) {
-    grid-column: 3;
-    grid-row: 2;
-}
-
-.direction-grid button:nth-child(4) {
-    grid-column: 2;
-    grid-row: 3;
-}
-
-.reset-position {
-    width: fit-content;
-
-    padding: 6px 10px;
-
-    font-size: 12px;
-}
-
-.opacity-control {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-}
-
-.opacity-control input {
-    width: 160px;
-}
-
-.active-layer-control {
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    padding: 10px 14px;
-
-    background: #ffffff;
-
-    border: 1px solid #dee2e6;
-
-    border-radius: 8px;
-}
-
-.active-layer-control label {
-    display: flex;
-
-    align-items: center;
-
-    gap: 5px;
-}
 /* ==================================================
    CONTROL PANEL
 ================================================== */
@@ -538,8 +557,14 @@ input {
     font-size: 11px;
 }
 
-.button-row button:hover {
+.button-row button:hover:not(:disabled) {
     background: #e9ecef;
+}
+
+.button-row button:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
 }
 
 
@@ -556,6 +581,7 @@ input {
         38px;
 
     grid-template-rows:
+        30px
         30px
         30px;
 
@@ -586,23 +612,21 @@ input {
 
 .direction-grid button:nth-child(1) {
     grid-column: 2;
+    grid-row: 1;
 }
 
 .direction-grid button:nth-child(2) {
     grid-column: 1;
-
     grid-row: 2;
 }
 
 .direction-grid button:nth-child(3) {
     grid-column: 3;
-
     grid-row: 2;
 }
 
 .direction-grid button:nth-child(4) {
     grid-column: 2;
-
     grid-row: 3;
 }
 
@@ -633,7 +657,7 @@ input {
 
 
 /* ==================================================
-   OPACITY
+   OPACITY INSIDE PANEL
 ================================================== */
 
 .opacity-control {
@@ -694,7 +718,6 @@ input {
     position: fixed;
 
     right: 16px;
-
     bottom: 12px;
 
     z-index: 200;
@@ -721,4 +744,54 @@ input {
 
 .show-controls[hidden] {
     display: none;
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 900px) {
+
+    .page-toolbar {
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+
+    .page-toolbar-section {
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .file-toolbar {
+        gap: 10px;
+
+        flex-wrap: wrap;
+    }
+
+    .page-toolbar {
+        gap: 8px;
+
+        padding: 7px 10px;
+    }
+
+    .page-navigation button {
+        width: 34px;
+
+        height: 30px;
+    }
+
+    .page-opacity-control input[type="range"] {
+        width: 100px;
+    }
+
+    .viewer-container {
+        padding: 10px;
+    }
 }

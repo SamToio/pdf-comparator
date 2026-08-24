@@ -16,6 +16,7 @@ app.innerHTML = `
             <h1>PDF Comparator</h1>
         </header>
 
+
         <section class="file-toolbar">
 
             <div class="file-control">
@@ -34,6 +35,7 @@ app.innerHTML = `
                 </span>
             </div>
 
+
             <div class="file-control">
                 <label class="file-button">
                     Open PDF B
@@ -51,6 +53,7 @@ app.innerHTML = `
             </div>
 
         </section>
+
 
         <!-- =========================================
              VIEWER
@@ -83,6 +86,142 @@ app.innerHTML = `
             </div>
 
         </main>
+
+
+        <!-- =========================================
+             PAGE / OPACITY CONTROLS
+             مستقل عن PDF Comparison Controls
+        ========================================== -->
+
+        <section
+            id="viewerControls"
+            class="viewer-controls"
+        >
+
+            <!-- =====================================
+                 PDF A PAGE NAVIGATION
+            ====================================== -->
+
+            <div class="page-navigation-control">
+
+                <strong>PDF A</strong>
+
+                <span class="page-status">
+                    Page:
+                    <strong id="pageA">0</strong>
+                    /
+                    <strong id="countA">0</strong>
+                </span>
+
+                <div class="button-row">
+
+                    <button
+                        type="button"
+                        id="previousPageA"
+                    >
+                        ◀
+                    </button>
+
+                    <button
+                        type="button"
+                        id="nextPageA"
+                    >
+                        ▶
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 PDF B PAGE NAVIGATION
+            ====================================== -->
+
+            <div class="page-navigation-control">
+
+                <strong>PDF B</strong>
+
+                <span class="page-status">
+                    Page:
+                    <strong id="pageB">0</strong>
+                    /
+                    <strong id="countB">0</strong>
+                </span>
+
+                <div class="button-row">
+
+                    <button
+                        type="button"
+                        id="previousPageB"
+                    >
+                        ◀
+                    </button>
+
+                    <button
+                        type="button"
+                        id="nextPageB"
+                    >
+                        ▶
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 PAGE SYNC
+            ====================================== -->
+
+            <div class="page-sync-control">
+
+                <strong>
+                    Page Sync
+                </strong>
+
+                <label class="sync-toggle">
+
+                    <input
+                        id="pageSync"
+                        type="checkbox"
+                    >
+
+                    <span>
+                        Sync Pages
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <!-- =====================================
+                 OPACITY
+            ====================================== -->
+
+            <div class="opacity-control">
+
+                <strong>
+                    Opacity
+                </strong>
+
+                <input
+                    id="opacityB"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="0.5"
+                >
+
+                <span id="opacityValue">
+                    50%
+                </span>
+
+            </div>
+
+        </section>
 
 
         <!-- =========================================
@@ -123,13 +262,6 @@ app.innerHTML = `
 
                         <strong>PDF A</strong>
 
-                        <span>
-                            Page:
-                            <strong id="pageA">0</strong>
-                            /
-                            <strong id="countA">0</strong>
-                        </span>
-
                     </div>
 
 
@@ -158,6 +290,8 @@ app.innerHTML = `
 
                     </div>
 
+
+                    <!-- ZOOM -->
 
                     <div class="control-group">
 
@@ -192,6 +326,8 @@ app.innerHTML = `
 
                     </div>
 
+
+                    <!-- POSITION -->
 
                     <div class="control-group">
 
@@ -231,7 +367,6 @@ app.innerHTML = `
 
                         </div>
 
-
                         <button
                             type="button"
                             class="reset-position"
@@ -254,13 +389,6 @@ app.innerHTML = `
                     <div class="panel-header">
 
                         <strong>PDF B</strong>
-
-                        <span>
-                            Page:
-                            <strong id="pageB">0</strong>
-                            /
-                            <strong id="countB">0</strong>
-                        </span>
 
                     </div>
 
@@ -290,6 +418,8 @@ app.innerHTML = `
 
                     </div>
 
+
+                    <!-- ZOOM -->
 
                     <div class="control-group">
 
@@ -324,6 +454,8 @@ app.innerHTML = `
 
                     </div>
 
+
+                    <!-- POSITION -->
 
                     <div class="control-group">
 
@@ -363,7 +495,6 @@ app.innerHTML = `
 
                         </div>
 
-
                         <button
                             type="button"
                             class="reset-position"
@@ -371,32 +502,6 @@ app.innerHTML = `
                         >
                             Reset Position
                         </button>
-
-                    </div>
-
-
-                    <div class="control-group">
-
-                        <span class="control-title">
-                            Opacity
-                        </span>
-
-                        <div class="opacity-control">
-
-                            <input
-                                id="opacityB"
-                                type="range"
-                                min="0"
-                                max="1"
-                                step="0.01"
-                                value="0.5"
-                            >
-
-                            <span id="opacityValue">
-                                50%
-                            </span>
-
-                        </div>
 
                     </div>
 
@@ -531,6 +636,26 @@ const hideControls =
 const showControls =
     document.querySelector('#showControls');
 
+const pageSync =
+    document.querySelector('#pageSync');
+
+
+// ==================================================
+// PAGE BUTTONS
+// ==================================================
+
+const previousPageA =
+    document.querySelector('#previousPageA');
+
+const nextPageA =
+    document.querySelector('#nextPageA');
+
+const previousPageB =
+    document.querySelector('#previousPageB');
+
+const nextPageB =
+    document.querySelector('#nextPageB');
+
 
 // ==================================================
 // PDF LAYERS
@@ -637,13 +762,14 @@ pdfAInput.addEventListener(
             pdfAName.textContent =
                 file.name;
 
-            pageA.textContent =
-                layerA.page;
-
             countA.textContent =
                 layerA.document.numPages;
 
+            updatePageInformation();
+
             updateLayerInformation();
+
+            updatePageButtons();
 
             updateEmptyState();
 
@@ -687,13 +813,14 @@ pdfBInput.addEventListener(
             pdfBName.textContent =
                 file.name;
 
-            pageB.textContent =
-                layerB.page;
-
             countB.textContent =
                 layerB.document.numPages;
 
+            updatePageInformation();
+
             updateLayerInformation();
+
+            updatePageButtons();
 
             updateEmptyState();
 
@@ -737,6 +864,244 @@ document
             }
         );
     });
+
+
+// ==================================================
+// PAGE SYNC
+// ==================================================
+
+pageSync.addEventListener(
+    'change',
+    () => {
+
+        updatePageButtons();
+    }
+);
+
+
+// ==================================================
+// PAGE A
+// ==================================================
+
+previousPageA.addEventListener(
+    'click',
+    async () => {
+
+        if (pageSync.checked) {
+
+            await movePagesTogether(
+                -1
+            );
+
+            return;
+        }
+
+        await layerA.previousPage();
+
+        updatePageInformation();
+
+        updatePageButtons();
+    }
+);
+
+
+nextPageA.addEventListener(
+    'click',
+    async () => {
+
+        if (pageSync.checked) {
+
+            await movePagesTogether(
+                1
+            );
+
+            return;
+        }
+
+        await layerA.nextPage();
+
+        updatePageInformation();
+
+        updatePageButtons();
+    }
+);
+
+
+// ==================================================
+// PAGE B
+// ==================================================
+
+previousPageB.addEventListener(
+    'click',
+    async () => {
+
+        if (pageSync.checked) {
+
+            await movePagesTogether(
+                -1
+            );
+
+            return;
+        }
+
+        await layerB.previousPage();
+
+        updatePageInformation();
+
+        updatePageButtons();
+    }
+);
+
+
+nextPageB.addEventListener(
+    'click',
+    async () => {
+
+        if (pageSync.checked) {
+
+            await movePagesTogether(
+                1
+            );
+
+            return;
+        }
+
+        await layerB.nextPage();
+
+        updatePageInformation();
+
+        updatePageButtons();
+    }
+);
+
+
+// ==================================================
+// MOVE PAGES TOGETHER
+// ==================================================
+
+async function movePagesTogether(
+    direction
+) {
+
+    const hasA =
+        Boolean(layerA.document);
+
+    const hasB =
+        Boolean(layerB.document);
+
+    if (!hasA && !hasB) {
+        return;
+    }
+
+
+    // ==============================================
+    // BOTH DOCUMENTS
+    // ==============================================
+
+    if (hasA && hasB) {
+
+        const currentPage =
+            Math.max(
+                layerA.page,
+                layerB.page
+            );
+
+        let targetPage =
+            currentPage + direction;
+
+
+        const maxPage =
+            Math.max(
+                layerA.document.numPages,
+                layerB.document.numPages
+            );
+
+
+        targetPage =
+            Math.max(
+                1,
+                Math.min(
+                    maxPage,
+                    targetPage
+                )
+            );
+
+
+        const promises = [];
+
+
+        if (
+            targetPage <=
+            layerA.document.numPages
+        ) {
+
+            promises.push(
+                layerA.setPage(
+                    targetPage
+                )
+            );
+        }
+
+
+        if (
+            targetPage <=
+            layerB.document.numPages
+        ) {
+
+            promises.push(
+                layerB.setPage(
+                    targetPage
+                )
+            );
+        }
+
+
+        await Promise.all(
+            promises
+        );
+    }
+
+
+    // ==============================================
+    // ONLY A
+    // ==============================================
+
+    else if (hasA) {
+
+        await layerA.setPage(
+            Math.max(
+                1,
+                Math.min(
+                    layerA.document.numPages,
+                    layerA.page + direction
+                )
+            )
+        );
+    }
+
+
+    // ==============================================
+    // ONLY B
+    // ==============================================
+
+    else if (hasB) {
+
+        await layerB.setPage(
+            Math.max(
+                1,
+                Math.min(
+                    layerB.document.numPages,
+                    layerB.page + direction
+                )
+            )
+        );
+    }
+
+
+    updatePageInformation();
+
+    updatePageButtons();
+}
 
 
 // ==================================================
@@ -975,7 +1340,9 @@ document
         'click',
         () => {
 
-            resetLayerZoom(layerA);
+            resetLayerZoom(
+                layerA
+            );
         }
     );
 
@@ -986,7 +1353,9 @@ document
         'click',
         () => {
 
-            resetLayerZoom(layerB);
+            resetLayerZoom(
+                layerB
+            );
         }
     );
 
@@ -1334,6 +1703,152 @@ function setLayerScaleAroundPoint(
 
 
 // ==================================================
+// PAGE INFORMATION
+// ==================================================
+
+function updatePageInformation() {
+
+    pageA.textContent =
+        layerA.document
+            ? layerA.page
+            : 0;
+
+    countA.textContent =
+        layerA.document
+            ? layerA.document.numPages
+            : 0;
+
+    pageB.textContent =
+        layerB.document
+            ? layerB.page
+            : 0;
+
+    countB.textContent =
+        layerB.document
+            ? layerB.document.numPages
+            : 0;
+}
+
+
+// ==================================================
+// PAGE BUTTONS
+// ==================================================
+
+function updatePageButtons() {
+
+    // ==============================================
+    // NO SYNC
+    // Each PDF has independent navigation.
+    // ==============================================
+
+    if (!pageSync.checked) {
+
+        if (layerA.document) {
+
+            previousPageA.disabled =
+                layerA.page <= 1;
+
+            nextPageA.disabled =
+                layerA.page >=
+                layerA.document.numPages;
+
+        } else {
+
+            previousPageA.disabled =
+                true;
+
+            nextPageA.disabled =
+                true;
+        }
+
+
+        if (layerB.document) {
+
+            previousPageB.disabled =
+                layerB.page <= 1;
+
+            nextPageB.disabled =
+                layerB.page >=
+                layerB.document.numPages;
+
+        } else {
+
+            previousPageB.disabled =
+                true;
+
+            nextPageB.disabled =
+                true;
+        }
+
+        return;
+    }
+
+
+    // ==============================================
+    // SYNC
+    // Navigation follows the shared page position.
+    // ==============================================
+
+    const hasA =
+        Boolean(layerA.document);
+
+    const hasB =
+        Boolean(layerB.document);
+
+
+    if (!hasA && !hasB) {
+
+        previousPageA.disabled = true;
+        nextPageA.disabled = true;
+
+        previousPageB.disabled = true;
+        nextPageB.disabled = true;
+
+        return;
+    }
+
+
+    const currentPage =
+        Math.max(
+            hasA ? layerA.page : 0,
+            hasB ? layerB.page : 0
+        );
+
+
+    const maxPage =
+        Math.max(
+            hasA
+                ? layerA.document.numPages
+                : 0,
+
+            hasB
+                ? layerB.document.numPages
+                : 0
+        );
+
+
+    const canPrevious =
+        currentPage > 1;
+
+    const canNext =
+        currentPage < maxPage;
+
+
+    previousPageA.disabled =
+        !hasA || !canPrevious;
+
+    nextPageA.disabled =
+        !hasA || !canNext;
+
+    previousPageB.disabled =
+        !hasB || !canPrevious;
+
+    nextPageB.disabled =
+        !hasB || !canNext;
+}
+
+
+// ==================================================
 // INFORMATION
 // ==================================================
 
@@ -1347,6 +1862,7 @@ function updateLayerInformation() {
 
     scaleA.textContent =
         layerA.scale.toFixed(3);
+
 
     xB.textContent =
         layerB.x.toFixed(1);
@@ -1381,3 +1897,7 @@ function updateEmptyState() {
 // ==================================================
 
 updateLayerInformation();
+
+updatePageInformation();
+
+updatePageButtons();
