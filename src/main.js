@@ -90,7 +90,6 @@ app.innerHTML = `
 
         <!-- =========================================
              PAGE / OPACITY CONTROLS
-             مستقل عن PDF Comparison Controls
         ========================================== -->
 
         <section
@@ -98,9 +97,7 @@ app.innerHTML = `
             class="viewer-controls"
         >
 
-            <!-- =====================================
-                 PDF A PAGE NAVIGATION
-            ====================================== -->
+            <!-- PDF A PAGE NAVIGATION -->
 
             <div class="page-navigation-control">
 
@@ -134,9 +131,7 @@ app.innerHTML = `
             </div>
 
 
-            <!-- =====================================
-                 PDF B PAGE NAVIGATION
-            ====================================== -->
+            <!-- PDF B PAGE NAVIGATION -->
 
             <div class="page-navigation-control">
 
@@ -170,9 +165,7 @@ app.innerHTML = `
             </div>
 
 
-            <!-- =====================================
-                 PAGE SYNC
-            ====================================== -->
+            <!-- PAGE SYNC -->
 
             <div class="page-sync-control">
 
@@ -196,9 +189,7 @@ app.innerHTML = `
             </div>
 
 
-            <!-- =====================================
-                 OPACITY
-            ====================================== -->
+            <!-- OPACITY -->
 
             <div class="opacity-control">
 
@@ -259,34 +250,50 @@ app.innerHTML = `
                 <div class="layer-panel">
 
                     <div class="panel-header">
-
                         <strong>PDF A</strong>
-
                     </div>
 
 
+                    <!-- VALUES -->
+
                     <div class="values">
 
-                        <span>
-                            X:
-                            <strong id="xA">
-                                0.0
-                            </strong>
-                        </span>
+                        <label class="value-control">
+                            <span>X:</span>
 
-                        <span>
-                            Y:
-                            <strong id="yA">
-                                30.0
-                            </strong>
-                        </span>
+                            <input
+                                id="xA"
+                                type="number"
+                                step="0.1"
+                                value="0.0"
+                            >
+                        </label>
 
-                        <span>
-                            Scale:
-                            <strong id="scaleA">
-                                1.000
-                            </strong>
-                        </span>
+
+                        <label class="value-control">
+                            <span>Y:</span>
+
+                            <input
+                                id="yA"
+                                type="number"
+                                step="0.1"
+                                value="30.0"
+                            >
+                        </label>
+
+
+                        <label class="value-control">
+                            <span>Scale:</span>
+
+                            <input
+                                id="scaleA"
+                                type="number"
+                                step="0.001"
+                                min="0.1"
+                                max="5"
+                                value="1.000"
+                            >
+                        </label>
 
                     </div>
 
@@ -387,34 +394,50 @@ app.innerHTML = `
                 <div class="layer-panel">
 
                     <div class="panel-header">
-
                         <strong>PDF B</strong>
-
                     </div>
 
 
+                    <!-- VALUES -->
+
                     <div class="values">
 
-                        <span>
-                            X:
-                            <strong id="xB">
-                                0.0
-                            </strong>
-                        </span>
+                        <label class="value-control">
+                            <span>X:</span>
 
-                        <span>
-                            Y:
-                            <strong id="yB">
-                                30.0
-                            </strong>
-                        </span>
+                            <input
+                                id="xB"
+                                type="number"
+                                step="0.1"
+                                value="0.0"
+                            >
+                        </label>
 
-                        <span>
-                            Scale:
-                            <strong id="scaleB">
-                                1.000
-                            </strong>
-                        </span>
+
+                        <label class="value-control">
+                            <span>Y:</span>
+
+                            <input
+                                id="yB"
+                                type="number"
+                                step="0.1"
+                                value="30.0"
+                            >
+                        </label>
+
+
+                        <label class="value-control">
+                            <span>Scale:</span>
+
+                            <input
+                                id="scaleB"
+                                type="number"
+                                step="0.001"
+                                min="0.1"
+                                max="5"
+                                value="1.000"
+                            >
+                        </label>
 
                     </div>
 
@@ -688,6 +711,17 @@ const MAX_SCALE = 5;
 
 
 // ==================================================
+// LONG PRESS
+// ==================================================
+
+const HOLD_DELAY = 300;
+
+const HOLD_INTERVAL = 35;
+
+const holdTimers = new Map();
+
+
+// ==================================================
 // INITIAL STATE
 // ==================================================
 
@@ -889,9 +923,7 @@ previousPageA.addEventListener(
 
         if (pageSync.checked) {
 
-            await movePagesTogether(
-                -1
-            );
+            await movePagesTogether(-1);
 
             return;
         }
@@ -911,9 +943,7 @@ nextPageA.addEventListener(
 
         if (pageSync.checked) {
 
-            await movePagesTogether(
-                1
-            );
+            await movePagesTogether(1);
 
             return;
         }
@@ -937,9 +967,7 @@ previousPageB.addEventListener(
 
         if (pageSync.checked) {
 
-            await movePagesTogether(
-                -1
-            );
+            await movePagesTogether(-1);
 
             return;
         }
@@ -959,9 +987,7 @@ nextPageB.addEventListener(
 
         if (pageSync.checked) {
 
-            await movePagesTogether(
-                1
-            );
+            await movePagesTogether(1);
 
             return;
         }
@@ -979,9 +1005,7 @@ nextPageB.addEventListener(
 // MOVE PAGES TOGETHER
 // ==================================================
 
-async function movePagesTogether(
-    direction
-) {
+async function movePagesTogether(direction) {
 
     const hasA =
         Boolean(layerA.document);
@@ -994,10 +1018,6 @@ async function movePagesTogether(
     }
 
 
-    // ==============================================
-    // BOTH DOCUMENTS
-    // ==============================================
-
     if (hasA && hasB) {
 
         const currentPage =
@@ -1009,13 +1029,11 @@ async function movePagesTogether(
         let targetPage =
             currentPage + direction;
 
-
         const maxPage =
             Math.max(
                 layerA.document.numPages,
                 layerB.document.numPages
             );
-
 
         targetPage =
             Math.max(
@@ -1026,7 +1044,6 @@ async function movePagesTogether(
                 )
             );
 
-
         const promises = [];
 
 
@@ -1036,9 +1053,7 @@ async function movePagesTogether(
         ) {
 
             promises.push(
-                layerA.setPage(
-                    targetPage
-                )
+                layerA.setPage(targetPage)
             );
         }
 
@@ -1049,22 +1064,14 @@ async function movePagesTogether(
         ) {
 
             promises.push(
-                layerB.setPage(
-                    targetPage
-                )
+                layerB.setPage(targetPage)
             );
         }
 
 
-        await Promise.all(
-            promises
-        );
+        await Promise.all(promises);
     }
 
-
-    // ==============================================
-    // ONLY A
-    // ==============================================
 
     else if (hasA) {
 
@@ -1079,10 +1086,6 @@ async function movePagesTogether(
         );
     }
 
-
-    // ==============================================
-    // ONLY B
-    // ==============================================
 
     else if (hasB) {
 
@@ -1256,8 +1259,7 @@ viewer.addEventListener(
 
         setLayerScaleAroundPoint(
             activeLayer,
-            activeLayer.scale *
-                zoomFactor,
+            activeLayer.scale * zoomFactor,
             mouseX,
             mouseY
         );
@@ -1271,63 +1273,202 @@ viewer.addEventListener(
 
 
 // ==================================================
+// HOLDABLE BUTTON HELPER
+// ==================================================
+
+function addHoldAction(
+    button,
+    action
+) {
+
+    let intervalId = null;
+
+    let holdTimeoutId = null;
+
+    let isHolding = false;
+
+
+    function stopHolding() {
+
+        if (holdTimeoutId !== null) {
+
+            clearTimeout(
+                holdTimeoutId
+            );
+
+            holdTimeoutId = null;
+        }
+
+
+        if (intervalId !== null) {
+
+            clearInterval(
+                intervalId
+            );
+
+            intervalId = null;
+        }
+
+        isHolding = false;
+
+        button.classList.remove(
+            'holding'
+        );
+    }
+
+
+    function startHolding() {
+
+        if (isHolding) {
+            return;
+        }
+
+        isHolding = true;
+
+        button.classList.add(
+            'holding'
+        );
+
+
+        holdTimeoutId =
+            setTimeout(
+                () => {
+
+                    holdTimeoutId =
+                        null;
+
+                    action();
+
+                    intervalId =
+                        setInterval(
+                            action,
+                            HOLD_INTERVAL
+                        );
+                },
+                HOLD_DELAY
+            );
+    }
+
+
+    button.addEventListener(
+        'pointerdown',
+        (event) => {
+
+            if (
+                event.pointerType ===
+                'mouse' &&
+                event.button !== 0
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+
+            button.setPointerCapture(
+                event.pointerId
+            );
+
+            // تنفيذ ضغطة واحدة فورًا
+            action();
+
+            // ثم بدء الضغط المطول
+            startHolding();
+        }
+    );
+
+
+    button.addEventListener(
+        'pointerup',
+        (event) => {
+
+            stopHolding();
+
+            if (
+                button.hasPointerCapture(
+                    event.pointerId
+                )
+            ) {
+
+                button.releasePointerCapture(
+                    event.pointerId
+                );
+            }
+        }
+    );
+
+
+    button.addEventListener(
+        'pointercancel',
+        stopHolding
+    );
+
+
+    button.addEventListener(
+        'lostpointercapture',
+        stopHolding
+    );
+
+
+    button.addEventListener(
+        'contextmenu',
+        (event) => {
+
+            event.preventDefault();
+        }
+    );
+}
+
+
+// ==================================================
 // ZOOM BUTTONS
 // ==================================================
 
-document
-    .querySelector('#zoomInA')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#zoomInA'),
+    () => {
 
-            changeLayerScale(
-                layerA,
-                ZOOM_STEP
-            );
-        }
-    );
+        changeLayerScale(
+            layerA,
+            ZOOM_STEP
+        );
+    }
+);
 
 
-document
-    .querySelector('#zoomOutA')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#zoomOutA'),
+    () => {
 
-            changeLayerScale(
-                layerA,
-                -ZOOM_STEP
-            );
-        }
-    );
+        changeLayerScale(
+            layerA,
+            -ZOOM_STEP
+        );
+    }
+);
 
 
-document
-    .querySelector('#zoomInB')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#zoomInB'),
+    () => {
 
-            changeLayerScale(
-                layerB,
-                ZOOM_STEP
-            );
-        }
-    );
+        changeLayerScale(
+            layerB,
+            ZOOM_STEP
+        );
+    }
+);
 
 
-document
-    .querySelector('#zoomOutB')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#zoomOutB'),
+    () => {
 
-            changeLayerScale(
-                layerB,
-                -ZOOM_STEP
-            );
-        }
-    );
+        changeLayerScale(
+            layerB,
+            -ZOOM_STEP
+        );
+    }
+);
 
 
 // ==================================================
@@ -1340,9 +1481,7 @@ document
         'click',
         () => {
 
-            resetLayerZoom(
-                layerA
-            );
+            resetLayerZoom(layerA);
         }
     );
 
@@ -1353,9 +1492,7 @@ document
         'click',
         () => {
 
-            resetLayerZoom(
-                layerB
-            );
+            resetLayerZoom(layerB);
         }
     );
 
@@ -1364,128 +1501,112 @@ document
 // POSITION A
 // ==================================================
 
-document
-    .querySelector('#moveUpA')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#moveUpA'),
+    () => {
 
-            moveLayer(
-                layerA,
-                0,
-                -POSITION_STEP
-            );
-        }
-    );
+        moveLayer(
+            layerA,
+            0,
+            -POSITION_STEP
+        );
+    }
+);
 
 
-document
-    .querySelector('#moveDownA')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#moveDownA'),
+    () => {
 
-            moveLayer(
-                layerA,
-                0,
-                POSITION_STEP
-            );
-        }
-    );
+        moveLayer(
+            layerA,
+            0,
+            POSITION_STEP
+        );
+    }
+);
 
 
-document
-    .querySelector('#moveLeftA')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#moveLeftA'),
+    () => {
 
-            moveLayer(
-                layerA,
-                -POSITION_STEP,
-                0
-            );
-        }
-    );
+        moveLayer(
+            layerA,
+            -POSITION_STEP,
+            0
+        );
+    }
+);
 
 
-document
-    .querySelector('#moveRightA')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#moveRightA'),
+    () => {
 
-            moveLayer(
-                layerA,
-                POSITION_STEP,
-                0
-            );
-        }
-    );
+        moveLayer(
+            layerA,
+            POSITION_STEP,
+            0
+        );
+    }
+);
 
 
 // ==================================================
 // POSITION B
 // ==================================================
 
-document
-    .querySelector('#moveUpB')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#moveUpB'),
+    () => {
 
-            moveLayer(
-                layerB,
-                0,
-                -POSITION_STEP
-            );
-        }
-    );
+        moveLayer(
+            layerB,
+            0,
+            -POSITION_STEP
+        );
+    }
+);
 
 
-document
-    .querySelector('#moveDownB')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#moveDownB'),
+    () => {
 
-            moveLayer(
-                layerB,
-                0,
-                POSITION_STEP
-            );
-        }
-    );
+        moveLayer(
+            layerB,
+            0,
+            POSITION_STEP
+        );
+    }
+);
 
 
-document
-    .querySelector('#moveLeftB')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#moveLeftB'),
+    () => {
 
-            moveLayer(
-                layerB,
-                -POSITION_STEP,
-                0
-            );
-        }
-    );
+        moveLayer(
+            layerB,
+            -POSITION_STEP,
+            0
+        );
+    }
+);
 
 
-document
-    .querySelector('#moveRightB')
-    .addEventListener(
-        'click',
-        () => {
+addHoldAction(
+    document.querySelector('#moveRightB'),
+    () => {
 
-            moveLayer(
-                layerB,
-                POSITION_STEP,
-                0
-            );
-        }
-    );
+        moveLayer(
+            layerB,
+            POSITION_STEP,
+            0
+        );
+    }
+);
 
 
 // ==================================================
@@ -1498,9 +1619,7 @@ document
         'click',
         () => {
 
-            resetLayerPosition(
-                layerA
-            );
+            resetLayerPosition(layerA);
         }
     );
 
@@ -1511,11 +1630,183 @@ document
         'click',
         () => {
 
-            resetLayerPosition(
-                layerB
-            );
+            resetLayerPosition(layerB);
         }
     );
+
+
+// ==================================================
+// DIRECT VALUE INPUTS
+// ==================================================
+
+function applyInputValue(
+    input,
+    callback
+) {
+
+    function apply() {
+
+        const value =
+            Number(input.value);
+
+        if (!Number.isFinite(value)) {
+
+            updateLayerInformation();
+
+            return;
+        }
+
+        callback(value);
+
+        updateLayerInformation();
+    }
+
+
+    input.addEventListener(
+        'change',
+        apply
+    );
+
+
+    input.addEventListener(
+        'keydown',
+        (event) => {
+
+            if (
+                event.key === 'Enter'
+            ) {
+
+                event.preventDefault();
+
+                apply();
+
+                input.blur();
+            }
+        }
+    );
+
+
+    input.addEventListener(
+        'blur',
+        apply
+    );
+}
+
+
+// ==================================================
+// X A
+// ==================================================
+
+applyInputValue(
+    xA,
+    (value) => {
+
+        layerA.setPosition(
+            value,
+            layerA.y
+        );
+    }
+);
+
+
+// ==================================================
+// Y A
+// ==================================================
+
+applyInputValue(
+    yA,
+    (value) => {
+
+        layerA.setPosition(
+            layerA.x,
+            value
+        );
+    }
+);
+
+
+// ==================================================
+// SCALE A
+// ==================================================
+
+applyInputValue(
+    scaleA,
+    (value) => {
+
+        const newScale =
+            Math.max(
+                MIN_SCALE,
+                Math.min(
+                    MAX_SCALE,
+                    value
+                )
+            );
+
+        layerA.setScale(
+            Number(
+                newScale.toFixed(3)
+            )
+        );
+    }
+);
+
+
+// ==================================================
+// X B
+// ==================================================
+
+applyInputValue(
+    xB,
+    (value) => {
+
+        layerB.setPosition(
+            value,
+            layerB.y
+        );
+    }
+);
+
+
+// ==================================================
+// Y B
+// ==================================================
+
+applyInputValue(
+    yB,
+    (value) => {
+
+        layerB.setPosition(
+            layerB.x,
+            value
+        );
+    }
+);
+
+
+// ==================================================
+// SCALE B
+// ==================================================
+
+applyInputValue(
+    scaleB,
+    (value) => {
+
+        const newScale =
+            Math.max(
+                MIN_SCALE,
+                Math.min(
+                    MAX_SCALE,
+                    value
+                )
+            );
+
+        layerB.setScale(
+            Number(
+                newScale.toFixed(3)
+            )
+        );
+    }
+);
 
 
 // ==================================================
@@ -1736,11 +2027,6 @@ function updatePageInformation() {
 
 function updatePageButtons() {
 
-    // ==============================================
-    // NO SYNC
-    // Each PDF has independent navigation.
-    // ==============================================
-
     if (!pageSync.checked) {
 
         if (layerA.document) {
@@ -1754,11 +2040,9 @@ function updatePageButtons() {
 
         } else {
 
-            previousPageA.disabled =
-                true;
+            previousPageA.disabled = true;
 
-            nextPageA.disabled =
-                true;
+            nextPageA.disabled = true;
         }
 
 
@@ -1773,21 +2057,14 @@ function updatePageButtons() {
 
         } else {
 
-            previousPageB.disabled =
-                true;
+            previousPageB.disabled = true;
 
-            nextPageB.disabled =
-                true;
+            nextPageB.disabled = true;
         }
 
         return;
     }
 
-
-    // ==============================================
-    // SYNC
-    // Navigation follows the shared page position.
-    // ==============================================
 
     const hasA =
         Boolean(layerA.document);
@@ -1854,23 +2131,23 @@ function updatePageButtons() {
 
 function updateLayerInformation() {
 
-    xA.textContent =
+    xA.value =
         layerA.x.toFixed(1);
 
-    yA.textContent =
+    yA.value =
         layerA.y.toFixed(1);
 
-    scaleA.textContent =
+    scaleA.value =
         layerA.scale.toFixed(3);
 
 
-    xB.textContent =
+    xB.value =
         layerB.x.toFixed(1);
 
-    yB.textContent =
+    yB.value =
         layerB.y.toFixed(1);
 
-    scaleB.textContent =
+    scaleB.value =
         layerB.scale.toFixed(3);
 }
 

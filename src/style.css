@@ -110,195 +110,6 @@ input {
 
 
 /* ==================================================
-   PAGE TOOLBAR
-   خارج PDF Comparison Controls
-================================================== */
-
-.page-toolbar {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-    padding: 8px 16px;
-
-    background: #ffffff;
-
-    border-bottom: 1px solid #dee2e6;
-
-    flex-shrink: 0;
-
-    z-index: 150;
-}
-
-.page-toolbar-section {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-}
-
-.page-navigation {
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-}
-
-.page-navigation button {
-    width: 36px;
-
-    height: 32px;
-
-    border: 1px solid #ced4da;
-
-    background: #f8f9fa;
-
-    color: #212529;
-
-    border-radius: 5px;
-
-    cursor: pointer;
-
-    font-size: 15px;
-
-    line-height: 1;
-}
-
-.page-navigation button:hover:not(:disabled) {
-    background: #e9ecef;
-}
-
-.page-navigation button:disabled {
-    opacity: 0.45;
-
-    cursor: not-allowed;
-}
-
-.page-information {
-    display: flex;
-
-    align-items: center;
-
-    gap: 5px;
-
-    min-width: 100px;
-
-    justify-content: center;
-
-    font-size: 13px;
-
-    white-space: nowrap;
-}
-
-.page-information strong {
-    font-weight: 700;
-}
-
-.page-layer-label {
-    font-size: 12px;
-
-    font-weight: 600;
-
-    color: #6c757d;
-}
-
-
-/* ==================================================
-   PAGE SYNC
-================================================== */
-
-.page-sync-control {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    padding: 6px 10px;
-
-    background: #f8f9fa;
-
-    border: 1px solid #dee2e6;
-
-    border-radius: 6px;
-
-    white-space: nowrap;
-}
-
-.page-sync-control > strong {
-    font-size: 12px;
-}
-
-.sync-toggle {
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-
-    font-size: 12px;
-
-    cursor: pointer;
-}
-
-.sync-toggle input {
-    margin: 0;
-
-    cursor: pointer;
-}
-
-
-/* ==================================================
-   OPACITY
-   خارج PDF Comparison Controls
-================================================== */
-
-.page-opacity-control {
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    padding: 6px 10px;
-
-    background: #f8f9fa;
-
-    border: 1px solid #dee2e6;
-
-    border-radius: 6px;
-
-    white-space: nowrap;
-}
-
-.page-opacity-control .control-title {
-    margin: 0;
-}
-
-.page-opacity-control input[type="range"] {
-    width: 140px;
-
-    cursor: pointer;
-}
-
-.page-opacity-value {
-    min-width: 38px;
-
-    text-align: right;
-
-    font-size: 12px;
-
-    font-weight: 600;
-}
-
-
-/* ==================================================
    VIEWER
 ================================================== */
 
@@ -358,6 +169,8 @@ input {
 
     box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.2);
+
+    user-select: none;
 }
 
 #pdfCanvasA {
@@ -498,15 +311,78 @@ input {
     font-size: 13px;
 }
 
+
+/* ==================================================
+   VALUE INPUTS
+================================================== */
+
 .values {
     display: flex;
 
-    gap: 12px;
+    align-items: center;
+
+    gap: 8px;
 
     font-size: 12px;
 
     white-space: nowrap;
 }
+
+.value-control {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.value-control input {
+    width: 68px;
+
+    height: 30px;
+
+    padding: 4px 6px;
+
+    border: 1px solid #ced4da;
+
+    border-radius: 5px;
+
+    background: #ffffff;
+
+    color: #212529;
+
+    outline: none;
+
+    font-size: 12px;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.value-control input:focus {
+    border-color: #868e96;
+
+    box-shadow:
+        0 0 0 2px rgba(134, 142, 150, 0.12);
+}
+
+.value-control input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.value-control input[type="number"]::-webkit-inner-spin-button,
+.value-control input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+
+/* ==================================================
+   CONTROL GROUP
+================================================== */
 
 .control-group {
     display: flex;
@@ -549,6 +425,10 @@ input {
     cursor: pointer;
 
     font-size: 15px;
+
+    user-select: none;
+
+    touch-action: none;
 }
 
 .button-row button:nth-child(2) {
@@ -559,6 +439,13 @@ input {
 
 .button-row button:hover:not(:disabled) {
     background: #e9ecef;
+}
+
+.button-row button:active,
+.button-row button.holding {
+    background: #dee2e6;
+
+    transform: translateY(1px);
 }
 
 .button-row button:disabled {
@@ -604,10 +491,21 @@ input {
     cursor: pointer;
 
     font-size: 14px;
+
+    user-select: none;
+
+    touch-action: none;
 }
 
 .direction-grid button:hover {
     background: #e9ecef;
+}
+
+.direction-grid button:active,
+.direction-grid button.holding {
+    background: #dee2e6;
+
+    transform: translateY(1px);
 }
 
 .direction-grid button:nth-child(1) {
@@ -657,7 +555,52 @@ input {
 
 
 /* ==================================================
-   OPACITY INSIDE PANEL
+   PAGE SYNC
+================================================== */
+
+.page-sync-control {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 6px 10px;
+
+    background: #f8f9fa;
+
+    border: 1px solid #dee2e6;
+
+    border-radius: 6px;
+
+    white-space: nowrap;
+}
+
+.page-sync-control > strong {
+    font-size: 12px;
+}
+
+.sync-toggle {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.sync-toggle input {
+    margin: 0;
+
+    cursor: pointer;
+}
+
+
+/* ==================================================
+   OPACITY
 ================================================== */
 
 .opacity-control {
@@ -753,16 +696,8 @@ input {
 
 @media (max-width: 900px) {
 
-    .page-toolbar {
-        flex-wrap: wrap;
-
-        justify-content: center;
-    }
-
-    .page-toolbar-section {
-        flex-wrap: wrap;
-
-        justify-content: center;
+    .controls {
+        overflow-x: auto;
     }
 }
 
@@ -775,23 +710,15 @@ input {
         flex-wrap: wrap;
     }
 
-    .page-toolbar {
-        gap: 8px;
-
-        padding: 7px 10px;
-    }
-
-    .page-navigation button {
-        width: 34px;
-
-        height: 30px;
-    }
-
-    .page-opacity-control input[type="range"] {
-        width: 100px;
-    }
-
     .viewer-container {
         padding: 10px;
+    }
+
+    .values {
+        gap: 5px;
+    }
+
+    .value-control input {
+        width: 62px;
     }
 }
