@@ -1,31 +1,54 @@
+/* =========================================================
+   RESET
+========================================================= */
+
 * {
     box-sizing: border-box;
 }
 
 html,
 body {
-    margin: 0;
     width: 100%;
     height: 100%;
+    margin: 0;
 }
 
 body {
     font-family:
         Inter,
+        ui-sans-serif,
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
 
-    background: #f1f3f5;
-    color: #212529;
+    background: #0f172a;
+    color: #e2e8f0;
+
+    overflow: hidden;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 button,
 input {
     font: inherit;
 }
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+input[type="number"] {
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
 
 .app {
     width: 100%;
@@ -35,93 +58,314 @@ input {
     flex-direction: column;
 
     overflow: hidden;
+
+    background: #f8fafc;
 }
 
 
-/* ==================================================
-   MAIN TOOLBAR
-================================================== */
+/* =========================================================
+   TOP BAR
+========================================================= */
 
-.toolbar {
-    min-height: 60px;
+.topbar {
+    height: 58px;
+
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
-    padding: 12px 20px;
+    padding: 0 18px;
 
     background: #ffffff;
 
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #e2e8f0;
+
+    z-index: 100;
 }
 
-.toolbar h1 {
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+}
+
+.brand-icon {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #0f172a;
+    color: #ffffff;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    box-shadow:
+        0 3px 8px rgba(15, 23, 42, 0.18);
+}
+
+.brand-text {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-text h1 {
     margin: 0;
 
-    font-size: 20px;
+    color: #0f172a;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.brand-text span {
+    margin-top: 2px;
+
+    color: #64748b;
+
+    font-size: 10px;
 }
 
 
-/* ==================================================
-   FILE TOOLBAR
-================================================== */
+/* =========================================================
+   STATUS
+========================================================= */
 
-.file-toolbar {
+.topbar-status {
     display: flex;
+    align-items: center;
 
-    gap: 30px;
+    gap: 7px;
 
-    padding: 12px 20px;
+    padding: 6px 10px;
 
-    background: #ffffff;
+    border: 1px solid #e2e8f0;
 
-    border-bottom: 1px solid #dee2e6;
+    border-radius: 999px;
+
+    color: #64748b;
+
+    font-size: 11px;
+    font-weight: 600;
 }
 
-.file-control {
-    display: flex;
+.status-dot {
+    width: 7px;
+    height: 7px;
 
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 0 3px rgba(34, 197, 94, 0.12);
+}
+
+
+/* =========================================================
+   FILE BAR
+========================================================= */
+
+.file-bar {
+    min-height: 64px;
+
+    flex-shrink: 0;
+
+    display: flex;
     align-items: center;
 
     gap: 10px;
+
+    padding: 7px 16px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    z-index: 90;
 }
 
-.file-button {
-    display: inline-flex;
 
+/* =========================================================
+   FILE CARD
+========================================================= */
+
+.file-card {
+    min-width: 0;
+
+    width: 300px;
+    max-width: 35vw;
+    height: 48px;
+
+    display: flex;
     align-items: center;
 
-    padding: 8px 12px;
+    gap: 10px;
 
-    border-radius: 6px;
+    padding: 6px 9px;
 
-    background: #212529;
+    border: 1px solid #e2e8f0;
 
-    color: #ffffff;
+    border-radius: 10px;
+
+    background: #f8fafc;
 
     cursor: pointer;
 
-    font-size: 14px;
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
-.file-button input {
+.file-card:hover {
+    border-color: #cbd5e1;
+
+    background: #f1f5f9;
+
+    box-shadow:
+        0 3px 10px rgba(15, 23, 42, 0.05);
+}
+
+.file-card input {
     display: none;
 }
 
 
-/* ==================================================
-   VIEWER
-================================================== */
+/* =========================================================
+   FILE BADGES
+========================================================= */
 
-.viewer-container {
+.file-badge {
+    width: 30px;
+    height: 30px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.file-card-a .file-badge {
+    background: #334155;
+}
+
+.file-card-b .file-badge {
+    background: #475569;
+}
+
+
+/* =========================================================
+   FILE INFO
+========================================================= */
+
+.file-info {
+    min-width: 0;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.file-info strong {
+    overflow: hidden;
+
+    color: #1e293b;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.file-info span {
+    margin-top: 2px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+.file-action {
+    flex-shrink: 0;
+
+    color: #64748b;
+
+    font-size: 10px;
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   FILE SEPARATOR
+========================================================= */
+
+.file-separator {
+    width: 24px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+}
+
+.file-separator span {
+    color: #94a3b8;
+
+    font-size: 9px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   WORKSPACE
+========================================================= */
+
+.workspace {
     flex: 1;
 
     min-height: 0;
 
-    padding: 20px;
+    padding: 8px;
+
+    background: #e2e8f0;
 
     overflow: hidden;
 }
+
+
+/* =========================================================
+   VIEWER
+========================================================= */
 
 .viewer {
     position: relative;
@@ -131,11 +375,19 @@ input {
 
     overflow: auto;
 
-    background: #adb5bd;
+    border-radius: 10px;
+
+    background: #cbd5e1;
 
     cursor: grab;
 
     touch-action: none;
+
+    isolation: isolate;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(15, 23, 42, 0.08),
+        0 2px 8px rgba(15, 23, 42, 0.08);
 }
 
 .viewer.dragging {
@@ -143,9 +395,45 @@ input {
 }
 
 
-/* ==================================================
+/* =========================================================
+   WORKSPACE BACKGROUND
+========================================================= */
+
+.workspace-background {
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+.workspace-grid {
+    position: absolute;
+
+    inset: -100px;
+
+    opacity: 0.45;
+
+    background-image:
+        linear-gradient(
+            rgba(100, 116, 139, 0.08) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(100, 116, 139, 0.08) 1px,
+            transparent 1px
+        );
+
+    background-size: 24px 24px;
+}
+
+
+/* =========================================================
    COMPARISON STAGE
-================================================== */
+========================================================= */
 
 .comparison-stage {
     position: absolute;
@@ -167,10 +455,11 @@ input {
 
     background: #ffffff;
 
-    box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.2);
-
     user-select: none;
+
+    box-shadow:
+        0 12px 30px rgba(15, 23, 42, 0.22),
+        0 2px 5px rgba(15, 23, 42, 0.12);
 }
 
 #pdfCanvasA {
@@ -182,9 +471,64 @@ input {
 }
 
 
-/* ==================================================
+/* =========================================================
+   VIEWER BADGES
+========================================================= */
+
+.viewer-badge {
+    position: absolute;
+
+    top: 12px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    background: rgba(15, 23, 42, 0.72);
+
+    color: #ffffff;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    backdrop-filter: blur(6px);
+
+    pointer-events: none;
+
+    opacity: 0.7;
+}
+
+.viewer-badge span {
+    width: 17px;
+    height: 17px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.16);
+
+    font-size: 9px;
+}
+
+.viewer-badge-a {
+    left: 12px;
+}
+
+.viewer-badge-b {
+    right: 12px;
+}
+
+
+/* =========================================================
    EMPTY STATE
-================================================== */
+========================================================= */
 
 .empty-state {
     position: absolute;
@@ -194,179 +538,721 @@ input {
 
     transform: translate(-50%, -50%);
 
-    z-index: 10;
+    z-index: 20;
+
+    width: min(430px, calc(100% - 40px));
 
     text-align: center;
 
-    color: #495057;
+    pointer-events: none;
+}
+
+.empty-state[hidden] {
+    display: none;
+}
+
+.empty-icon {
+    width: 58px;
+    height: 58px;
+
+    display: grid;
+    place-items: center;
+
+    margin: 0 auto 14px;
+
+    border: 1px solid rgba(148, 163, 184, 0.4);
+
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.72);
+
+    color: #475569;
+
+    font-size: 26px;
+
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.empty-state h2 {
+    margin: 0;
+
+    color: #334155;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.empty-state p {
+    margin: 7px 0 14px;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.empty-hint {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 10px;
+
+    border: 1px solid rgba(148, 163, 184, 0.3);
+
+    border-radius: 7px;
+
+    background: rgba(255, 255, 255, 0.6);
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+.empty-hint span {
+    padding: 2px 5px;
+
+    border-radius: 4px;
+
+    background: #e2e8f0;
+
+    color: #475569;
+
+    font-size: 9px;
+    font-weight: 700;
 }
 
 
-/* ==================================================
+/* =========================================================
+   COMPARISON BAR
+========================================================= */
+
+.comparison-bar {
+    min-height: 62px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 8px 16px;
+
+    background: #ffffff;
+
+    border-top: 1px solid #e2e8f0;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    z-index: 100;
+}
+
+
+/* =========================================================
+   PAGE CONTROL
+========================================================= */
+
+.page-control {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    flex-shrink: 0;
+}
+
+.page-label {
+    width: 28px;
+    height: 28px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.page-label.layer-a {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.page-label.layer-b {
+    background: #cbd5e1;
+    color: #1e293b;
+}
+
+
+/* =========================================================
+   PAGE BUTTON
+========================================================= */
+
+.page-button {
+    width: 29px;
+    height: 29px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 7px;
+
+    background: #f8fafc;
+
+    color: #475569;
+
+    cursor: pointer;
+
+    font-size: 10px;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.1s ease;
+}
+
+.page-button:hover:not(:disabled) {
+    background: #f1f5f9;
+
+    border-color: #cbd5e1;
+}
+
+.page-button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.page-button:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   PAGE COUNTER
+========================================================= */
+
+.page-counter {
+    min-width: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+}
+
+.page-counter strong {
+    color: #1e293b;
+
+    font-size: 12px;
+}
+
+.page-counter span {
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   SYNC
+========================================================= */
+
+.sync-control {
+    flex-shrink: 0;
+
+    margin-left: auto;
+}
+
+.sync-switch {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.sync-switch input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.sync-text {
+    color: #475569;
+
+    font-size: 11px;
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   SWITCH
+========================================================= */
+
+.switch-track {
+    position: relative;
+
+    width: 34px;
+    height: 19px;
+
+    flex-shrink: 0;
+
+    border-radius: 999px;
+
+    background: #cbd5e1;
+
+    transition: background 0.18s ease;
+}
+
+.switch-thumb {
+    position: absolute;
+
+    top: 3px;
+    left: 3px;
+
+    width: 13px;
+    height: 13px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 1px 3px rgba(15, 23, 42, 0.2);
+
+    transition:
+        transform 0.18s ease;
+}
+
+.sync-switch input:checked + .switch-track {
+    background: #334155;
+}
+
+.sync-switch input:checked + .switch-track .switch-thumb {
+    transform: translateX(15px);
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.bar-divider {
+    width: 1px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    background: #e2e8f0;
+}
+
+
+/* =========================================================
+   OPACITY
+========================================================= */
+
+.opacity-control {
+    width: 230px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.opacity-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #64748b;
+
+    font-size: 10px;
+    font-weight: 650;
+}
+
+.opacity-heading strong {
+    min-width: 34px;
+
+    color: #1e293b;
+
+    font-size: 10px;
+
+    text-align: right;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.opacity-slider-wrap {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.opacity-slider-wrap > span {
+    color: #94a3b8;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   RANGE
+========================================================= */
+
+.opacity-control input[type="range"] {
+    width: 100%;
+    height: 16px;
+
+    margin: 0;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: transparent;
+
+    cursor: pointer;
+}
+
+.opacity-control input[type="range"]::-webkit-slider-runnable-track {
+    height: 4px;
+
+    border-radius: 999px;
+
+    background: #cbd5e1;
+}
+
+.opacity-control input[type="range"]::-moz-range-track {
+    height: 4px;
+
+    border-radius: 999px;
+
+    background: #cbd5e1;
+}
+
+.opacity-control input[type="range"]::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+
+    margin-top: -5px;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    border: 2px solid #ffffff;
+
+    border-radius: 50%;
+
+    background: #334155;
+
+    box-shadow:
+        0 1px 5px rgba(15, 23, 42, 0.3);
+
+    cursor: grab;
+}
+
+.opacity-control input[type="range"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+
+    border: 2px solid #ffffff;
+
+    border-radius: 50%;
+
+    background: #334155;
+
+    box-shadow:
+        0 1px 5px rgba(15, 23, 42, 0.3);
+
+    cursor: grab;
+}
+
+
+/* =========================================================
    CONTROL PANEL
-================================================== */
+========================================================= */
 
 .control-panel {
     width: 100%;
 
-    background: #ffffff;
+    flex-shrink: 0;
 
-    border-top: 1px solid #dee2e6;
+    background: #f8fafc;
+
+    border-top: 1px solid #e2e8f0;
 
     box-shadow:
-        0 -4px 15px rgba(0, 0, 0, 0.08);
+        0 -5px 20px rgba(15, 23, 42, 0.06);
 
     z-index: 100;
-
-    flex-shrink: 0;
 }
 
 .control-panel[hidden] {
     display: none;
 }
 
+
+/* =========================================================
+   CONTROL HEADER
+========================================================= */
+
 .control-panel-header {
     height: 42px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     padding: 0 16px;
 
-    border-bottom: 1px solid #e9ecef;
+    background: #ffffff;
+
+    border-bottom: 1px solid #e2e8f0;
 }
 
-.control-panel-header button {
-    border: 1px solid #ced4da;
+.advanced-title {
+    display: flex;
+    align-items: center;
 
-    background: #f8f9fa;
+    gap: 8px;
+}
 
-    padding: 5px 10px;
+.advanced-icon {
+    width: 25px;
+    height: 25px;
 
-    border-radius: 5px;
+    display: grid;
+    place-items: center;
 
-    cursor: pointer;
+    border-radius: 6px;
+
+    background: #f1f5f9;
+
+    color: #475569;
 
     font-size: 12px;
 }
 
-.control-panel-header button:hover {
-    background: #e9ecef;
-}
-
-
-/* ==================================================
-   CONTROLS
-================================================== */
-
-.controls {
+.advanced-title > div {
     display: flex;
-
-    align-items: stretch;
-
-    gap: 12px;
-
-    padding: 12px 16px;
-
-    overflow-x: auto;
-}
-
-
-/* ==================================================
-   LAYER PANEL
-================================================== */
-
-.layer-panel {
-    display: flex;
-
     flex-direction: column;
+}
 
-    gap: 10px;
+.advanced-title strong {
+    color: #334155;
 
-    min-width: 280px;
+    font-size: 11px;
+}
 
-    padding: 12px;
+.advanced-title span {
+    color: #94a3b8;
+
+    font-size: 9px;
+}
+
+.collapse-button {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 8px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 6px;
 
     background: #ffffff;
 
-    border: 1px solid #dee2e6;
+    color: #64748b;
 
-    border-radius: 8px;
+    cursor: pointer;
+
+    font-size: 10px;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
 }
 
-.panel-header {
-    display: flex;
+.collapse-button:hover {
+    background: #f8fafc;
 
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding-bottom: 7px;
-
-    border-bottom: 1px solid #e9ecef;
-
-    font-size: 13px;
+    border-color: #cbd5e1;
 }
 
 
-/* ==================================================
-   VALUE INPUTS
-================================================== */
+/* =========================================================
+   CONTROLS
+========================================================= */
 
-.values {
+.controls {
     display: flex;
+    align-items: stretch;
 
+    gap: 10px;
+
+    padding: 9px 16px;
+
+    overflow-x: auto;
+
+    scrollbar-width: thin;
+}
+
+
+/* =========================================================
+   LAYER PANEL
+========================================================= */
+
+.layer-panel {
+    width: 340px;
+    min-width: 340px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+
+    padding: 10px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   LAYER PANEL HEADER
+========================================================= */
+
+.layer-panel-header {
+    display: flex;
     align-items: center;
 
     gap: 8px;
 
-    font-size: 12px;
+    padding-bottom: 7px;
 
-    white-space: nowrap;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.layer-panel-header > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.layer-panel-header strong {
+    color: #334155;
+
+    font-size: 11px;
+}
+
+.layer-panel-header span {
+    margin-top: 1px;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+}
+
+.panel-layer-name {
+    width: 26px;
+    height: 26px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 7px;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.panel-layer-name.layer-a {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.panel-layer-name.layer-b {
+    background: #cbd5e1;
+    color: #1e293b;
+}
+
+
+/* =========================================================
+   VALUES
+========================================================= */
+
+.values {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
 }
 
 .value-control {
     display: flex;
-
     align-items: center;
 
     gap: 4px;
 
-    font-size: 12px;
+    color: #64748b;
 
-    font-weight: 600;
+    font-size: 9px;
+    font-weight: 700;
 }
 
 .value-control input {
-    width: 68px;
-
-    height: 30px;
+    width: 62px;
+    height: 27px;
 
     padding: 4px 6px;
 
-    border: 1px solid #ced4da;
+    border: 1px solid #e2e8f0;
 
-    border-radius: 5px;
-
-    background: #ffffff;
-
-    color: #212529;
+    border-radius: 6px;
 
     outline: none;
 
-    font-size: 12px;
+    background: #f8fafc;
 
-    font-variant-numeric: tabular-nums;
+    color: #334155;
+
+    font-size: 10px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 .value-control input:focus {
-    border-color: #868e96;
+    border-color: #94a3b8;
+
+    background: #ffffff;
 
     box-shadow:
-        0 0 0 2px rgba(134, 142, 150, 0.12);
+        0 0 0 3px rgba(100, 116, 139, 0.08);
 }
 
 .value-control input[type="number"] {
@@ -380,130 +1266,151 @@ input {
 }
 
 
-/* ==================================================
-   CONTROL GROUP
-================================================== */
+/* =========================================================
+   CONTROL SECTION
+========================================================= */
 
-.control-group {
+.control-section {
     display: flex;
-
     flex-direction: column;
-
-    gap: 6px;
-}
-
-.control-title {
-    font-size: 11px;
-
-    font-weight: 600;
-
-    color: #6c757d;
-}
-
-
-/* ==================================================
-   BUTTONS
-================================================== */
-
-.button-row {
-    display: flex;
 
     gap: 5px;
 }
 
+.control-title {
+    color: #94a3b8;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* =========================================================
+   BUTTON ROW
+========================================================= */
+
+.button-row {
+    display: flex;
+
+    gap: 4px;
+}
+
 .button-row button {
-    width: 44px;
+    width: 38px;
+    height: 28px;
 
-    height: 32px;
+    border: 1px solid #e2e8f0;
 
-    border: 1px solid #ced4da;
+    border-radius: 6px;
 
-    background: #f8f9fa;
+    background: #f8fafc;
 
-    border-radius: 5px;
+    color: #475569;
 
     cursor: pointer;
 
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 600;
 
     user-select: none;
 
     touch-action: none;
+
+    transition:
+        background 0.12s ease,
+        border-color 0.12s ease,
+        transform 0.08s ease;
 }
 
-.button-row button:nth-child(2) {
-    width: 60px;
+.button-row button:hover {
+    background: #f1f5f9;
 
-    font-size: 11px;
-}
-
-.button-row button:hover:not(:disabled) {
-    background: #e9ecef;
+    border-color: #cbd5e1;
 }
 
 .button-row button:active,
 .button-row button.holding {
-    background: #dee2e6;
+    background: #e2e8f0;
 
     transform: translateY(1px);
 }
 
+.button-row .reset-button {
+    width: 58px;
+
+    font-size: 9px;
+    font-weight: 650;
+}
+
 .button-row button:disabled {
-    opacity: 0.45;
+    opacity: 0.4;
 
     cursor: not-allowed;
 }
 
 
-/* ==================================================
-   DIRECTION BUTTONS
-================================================== */
+/* =========================================================
+   POSITION
+========================================================= */
+
+.position-section {
+    position: relative;
+}
 
 .direction-grid {
     display: grid;
 
     grid-template-columns:
-        38px
-        38px
-        38px;
+        29px
+        29px
+        29px;
 
     grid-template-rows:
-        30px
-        30px
-        30px;
+        25px
+        25px
+        25px;
 
-    gap: 3px;
+    gap: 2px;
 
     width: fit-content;
 }
 
 .direction-grid button {
-    width: 38px;
+    width: 29px;
+    height: 25px;
 
-    height: 30px;
-
-    border: 1px solid #ced4da;
-
-    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
 
     border-radius: 5px;
 
+    background: #f8fafc;
+
+    color: #475569;
+
     cursor: pointer;
 
-    font-size: 14px;
+    font-size: 12px;
 
     user-select: none;
 
     touch-action: none;
+
+    transition:
+        background 0.12s ease,
+        transform 0.08s ease;
 }
 
 .direction-grid button:hover {
-    background: #e9ecef;
+    background: #f1f5f9;
 }
 
 .direction-grid button:active,
 .direction-grid button.holding {
-    background: #dee2e6;
+    background: #e2e8f0;
 
     transform: translateY(1px);
 }
@@ -529,160 +1436,226 @@ input {
 }
 
 
-/* ==================================================
+/* =========================================================
    RESET POSITION
-================================================== */
+========================================================= */
 
 .reset-position {
     width: fit-content;
 
-    padding: 5px 9px;
+    margin-top: 2px;
 
-    border: 1px solid #ced4da;
+    padding: 4px 7px;
 
-    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
 
     border-radius: 5px;
 
+    background: #ffffff;
+
+    color: #64748b;
+
     cursor: pointer;
 
-    font-size: 11px;
+    font-size: 9px;
+
+    transition:
+        background 0.12s ease,
+        border-color 0.12s ease;
 }
 
 .reset-position:hover {
-    background: #e9ecef;
+    background: #f1f5f9;
+
+    border-color: #cbd5e1;
 }
 
 
-/* ==================================================
-   PAGE SYNC
-================================================== */
+/* =========================================================
+   ACTIVE LAYER
+========================================================= */
 
-.page-sync-control {
+.active-layer-control {
+    width: 230px;
+    min-width: 230px;
+
     display: flex;
+    flex-direction: column;
 
-    align-items: center;
+    justify-content: center;
 
-    gap: 10px;
+    gap: 12px;
 
-    padding: 6px 10px;
+    padding: 12px;
 
-    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
 
-    border: 1px solid #dee2e6;
+    border-radius: 9px;
 
-    border-radius: 6px;
-
-    white-space: nowrap;
+    background: #ffffff;
 }
 
-.page-sync-control > strong {
-    font-size: 12px;
-}
-
-.sync-toggle {
+.active-header {
     display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-
-    font-size: 12px;
-
-    cursor: pointer;
-}
-
-.sync-toggle input {
-    margin: 0;
-
-    cursor: pointer;
-}
-
-
-/* ==================================================
-   OPACITY
-================================================== */
-
-.opacity-control {
-    display: flex;
-
     align-items: center;
 
     gap: 8px;
 }
 
-.opacity-control input {
-    width: 140px;
-}
+.active-icon {
+    width: 28px;
+    height: 28px;
 
+    display: grid;
+    place-items: center;
 
-/* ==================================================
-   ACTIVE LAYER
-================================================== */
+    border-radius: 7px;
 
-.active-layer-control {
-    display: flex;
+    background: #f1f5f9;
 
-    align-items: center;
-
-    align-content: center;
-
-    flex-wrap: wrap;
-
-    gap: 12px;
-
-    min-width: 170px;
-
-    padding: 12px;
-
-    background: #ffffff;
-
-    border: 1px solid #dee2e6;
-
-    border-radius: 8px;
+    color: #475569;
 
     font-size: 12px;
 }
 
-.active-layer-control label {
+.active-header > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.active-header strong {
+    color: #334155;
+
+    font-size: 11px;
+}
+
+.active-header span {
+    margin-top: 2px;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+}
+
+.layer-selector {
     display: flex;
 
-    align-items: center;
+    gap: 6px;
+}
 
-    gap: 4px;
+.layer-radio {
+    position: relative;
+
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    height: 32px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 7px;
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    cursor: pointer;
+
+    font-size: 10px;
+    font-weight: 650;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.layer-radio input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.radio-mark {
+    width: 10px;
+    height: 10px;
+
+    border: 2px solid #cbd5e1;
+
+    border-radius: 50%;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.layer-radio:has(input:checked) {
+    border-color: #94a3b8;
+
+    background: #f1f5f9;
+
+    color: #1e293b;
+}
+
+.layer-radio:has(input:checked) .radio-mark {
+    border-color: #334155;
+
+    background:
+        radial-gradient(
+            circle,
+            #334155 0 45%,
+            transparent 48%
+        );
 }
 
 
-/* ==================================================
+/* =========================================================
    SHOW CONTROLS
-================================================== */
+========================================================= */
 
 .show-controls {
     position: fixed;
 
-    right: 16px;
-    bottom: 12px;
+    right: 14px;
+    bottom: 7%;
 
-    z-index: 200;
+    z-index: 300;
 
-    border: 1px solid #ced4da;
+    display: flex;
+    align-items: center;
 
-    background: #ffffff;
+    gap: 6px;
 
-    padding: 7px 13px;
+    padding: 8px 11px;
 
-    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.94);
+
+    color: #475569;
 
     cursor: pointer;
 
     box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.12);
+        0 5px 18px rgba(15, 23, 42, 0.14);
 
-    font-size: 12px;
+    backdrop-filter: blur(8px);
+
+    font-size: 10px;
+    font-weight: 650;
 }
 
 .show-controls:hover {
-    background: #f8f9fa;
+    background: #ffffff;
 }
 
 .show-controls[hidden] {
@@ -690,35 +1663,163 @@ input {
 }
 
 
-/* ==================================================
+/* =========================================================
+   ACTIVE LAYER VISUAL STATE
+========================================================= */
+
+body[data-active-layer="A"] .viewer-badge-a {
+    opacity: 1;
+}
+
+body[data-active-layer="B"] .viewer-badge-b {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   SCROLLBARS
+========================================================= */
+
+.viewer::-webkit-scrollbar,
+.controls::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.viewer::-webkit-scrollbar-track,
+.controls::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.viewer::-webkit-scrollbar-thumb,
+.controls::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+
+    background: rgba(71, 85, 105, 0.28);
+}
+
+.viewer::-webkit-scrollbar-thumb:hover,
+.controls::-webkit-scrollbar-thumb:hover {
+    background: rgba(71, 85, 105, 0.42);
+}
+
+
+/* =========================================================
    RESPONSIVE
-================================================== */
+========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
 
-    .controls {
-        overflow-x: auto;
+    .file-card {
+        width: 260px;
+    }
+
+    .opacity-control {
+        width: 190px;
+    }
+
+    .sync-text {
+        display: none;
     }
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 760px) {
 
-    .file-toolbar {
-        gap: 10px;
+    .topbar {
+        height: 52px;
 
-        flex-wrap: wrap;
+        padding: 0 10px;
     }
 
-    .viewer-container {
-        padding: 10px;
+    .brand-text span,
+    .topbar-status {
+        display: none;
     }
 
-    .values {
-        gap: 5px;
+    .file-bar {
+        min-height: 58px;
+
+        padding: 6px 8px;
+
+        gap: 6px;
     }
 
-    .value-control input {
-        width: 62px;
+    .file-card {
+        width: auto;
+        max-width: none;
+
+        flex: 1;
+
+        height: 44px;
+    }
+
+    .file-action {
+        display: none;
+    }
+
+    .file-separator {
+        width: 18px;
+    }
+
+    .workspace {
+        padding: 5px;
+    }
+
+    .comparison-bar {
+        gap: 7px;
+
+        padding: 7px 9px;
+
+        overflow-x: auto;
+    }
+
+    .opacity-control {
+        width: 180px;
+    }
+
+    .bar-divider {
+        display: none;
+    }
+
+    .control-panel-header {
+        padding: 0 9px;
+    }
+
+    .controls {
+        padding: 8px 9px;
+    }
+}
+
+
+@media (max-width: 560px) {
+
+    .file-info span {
+        display: none;
+    }
+
+    .file-info strong {
+        font-size: 10px;
+    }
+
+    .file-badge {
+        width: 27px;
+        height: 27px;
+    }
+
+    .comparison-bar {
+        min-height: 56px;
+    }
+
+    .page-counter {
+        min-width: 45px;
+    }
+
+    .opacity-control {
+        width: 150px;
+    }
+
+    .viewer-badge {
+        display: none;
     }
 }

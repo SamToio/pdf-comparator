@@ -12,56 +12,111 @@ const app = document.querySelector('#app');
 app.innerHTML = `
     <div class="app">
 
-        <header class="toolbar">
-            <h1>PDF Comparator</h1>
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <header class="topbar">
+
+            <div class="brand">
+                <div class="brand-icon">⇄</div>
+
+                <div class="brand-text">
+                    <h1>PDF Comparator</h1>
+                    <span>Overlay & compare PDF documents</span>
+                </div>
+            </div>
+
+            <div class="topbar-status">
+                <span class="status-dot"></span>
+                Ready
+            </div>
+
         </header>
 
 
-        <section class="file-toolbar">
+        <!-- =================================================
+             FILE BAR
+        ================================================== -->
 
-            <div class="file-control">
-                <label class="file-button">
-                    Open PDF A
+        <section class="file-bar">
 
-                    <input
-                        id="pdfAInput"
-                        type="file"
-                        accept="application/pdf"
-                    >
-                </label>
+            <label class="file-card file-card-a">
 
-                <span id="pdfAName">
-                    No file selected
+                <div class="file-badge">A</div>
+
+                <div class="file-info">
+                    <strong id="pdfAName">
+                        Open PDF A
+                    </strong>
+
+                    <span>
+                        Base document
+                    </span>
+                </div>
+
+                <span class="file-action">
+                    Browse
                 </span>
+
+                <input
+                    id="pdfAInput"
+                    type="file"
+                    accept="application/pdf"
+                >
+
+            </label>
+
+
+            <div class="file-separator">
+                <span>VS</span>
             </div>
 
 
-            <div class="file-control">
-                <label class="file-button">
-                    Open PDF B
+            <label class="file-card file-card-b">
 
-                    <input
-                        id="pdfBInput"
-                        type="file"
-                        accept="application/pdf"
-                    >
-                </label>
+                <div class="file-badge">B</div>
 
-                <span id="pdfBName">
-                    No file selected
+                <div class="file-info">
+                    <strong id="pdfBName">
+                        Open PDF B
+                    </strong>
+
+                    <span>
+                        Overlay document
+                    </span>
+                </div>
+
+                <span class="file-action">
+                    Browse
                 </span>
-            </div>
+
+                <input
+                    id="pdfBInput"
+                    type="file"
+                    accept="application/pdf"
+                >
+
+            </label>
 
         </section>
 
 
-        <!-- =========================================
-             VIEWER
-        ========================================== -->
+        <!-- =================================================
+             MAIN WORKSPACE
+        ================================================== -->
 
-        <main class="viewer-container">
+        <main class="workspace">
 
-            <div class="viewer" id="viewer">
+            <div
+                class="viewer"
+                id="viewer"
+            >
+
+                <div class="workspace-background">
+                    <div class="workspace-grid"></div>
+                </div>
+
 
                 <div class="comparison-stage">
 
@@ -71,16 +126,42 @@ app.innerHTML = `
 
                 </div>
 
+
                 <div
                     id="emptyState"
                     class="empty-state"
                 >
-                    <h2>Open two PDF files</h2>
+
+                    <div class="empty-icon">
+                        ⇄
+                    </div>
+
+                    <h2>
+                        Start comparing PDFs
+                    </h2>
 
                     <p>
-                        The second PDF will appear
-                        above the first one.
+                        Open two PDF files to overlay
+                        and compare their pages.
                     </p>
+
+                    <div class="empty-hint">
+                        <span>Tip</span>
+                        You can drag the active document
+                        and use the mouse wheel to zoom.
+                    </div>
+
+                </div>
+
+
+                <div class="viewer-badge viewer-badge-a">
+                    <span>A</span>
+                    PDF A
+                </div>
+
+                <div class="viewer-badge viewer-badge-b">
+                    <span>B</span>
+                    PDF B
                 </div>
 
             </div>
@@ -88,99 +169,63 @@ app.innerHTML = `
         </main>
 
 
-        <!-- =========================================
-             PAGE / OPACITY CONTROLS
-        ========================================== -->
+        <!-- =================================================
+             COMPARISON BAR
+        ================================================== -->
 
-        <section
-            id="viewerControls"
-            class="viewer-controls"
-        >
+        <section class="comparison-bar">
 
-            <!-- PDF A PAGE NAVIGATION -->
+            <!-- PDF A -->
 
-            <div class="page-navigation-control">
+            <div class="page-control">
 
-                <strong>PDF A</strong>
+                <div class="page-label layer-a">
+                    <span>A</span>
+                </div>
 
-                <span class="page-status">
-                    Page:
+                <button
+                    type="button"
+                    id="previousPageA"
+                    class="page-button"
+                    title="Previous page"
+                >
+                    ◀
+                </button>
+
+                <div class="page-counter">
                     <strong id="pageA">0</strong>
-                    /
-                    <strong id="countA">0</strong>
-                </span>
-
-                <div class="button-row">
-
-                    <button
-                        type="button"
-                        id="previousPageA"
-                    >
-                        ◀
-                    </button>
-
-                    <button
-                        type="button"
-                        id="nextPageA"
-                    >
-                        ▶
-                    </button>
-
+                    <span>/</span>
+                    <span id="countA">0</span>
                 </div>
+
+                <button
+                    type="button"
+                    id="nextPageA"
+                    class="page-button"
+                    title="Next page"
+                >
+                    ▶
+                </button>
 
             </div>
 
 
-            <!-- PDF B PAGE NAVIGATION -->
+            <!-- SYNC -->
 
-            <div class="page-navigation-control">
+            <div class="sync-control">
 
-                <strong>PDF B</strong>
-
-                <span class="page-status">
-                    Page:
-                    <strong id="pageB">0</strong>
-                    /
-                    <strong id="countB">0</strong>
-                </span>
-
-                <div class="button-row">
-
-                    <button
-                        type="button"
-                        id="previousPageB"
-                    >
-                        ◀
-                    </button>
-
-                    <button
-                        type="button"
-                        id="nextPageB"
-                    >
-                        ▶
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- PAGE SYNC -->
-
-            <div class="page-sync-control">
-
-                <strong>
-                    Page Sync
-                </strong>
-
-                <label class="sync-toggle">
+                <label class="sync-switch">
 
                     <input
                         id="pageSync"
                         type="checkbox"
                     >
 
-                    <span>
+                    <span class="switch-track">
+                        <span class="switch-thumb"></span>
+                    </span>
+
+                    <span class="sync-text">
                         Sync Pages
                     </span>
 
@@ -189,35 +234,81 @@ app.innerHTML = `
             </div>
 
 
+            <!-- PDF B -->
+
+            <div class="page-control">
+
+                <div class="page-label layer-b">
+                    <span>B</span>
+                </div>
+
+                <button
+                    type="button"
+                    id="previousPageB"
+                    class="page-button"
+                    title="Previous page"
+                >
+                    ◀
+                </button>
+
+                <div class="page-counter">
+                    <strong id="pageB">0</strong>
+                    <span>/</span>
+                    <span id="countB">0</span>
+                </div>
+
+                <button
+                    type="button"
+                    id="nextPageB"
+                    class="page-button"
+                    title="Next page"
+                >
+                    ▶
+                </button>
+
+            </div>
+
+
+            <div class="bar-divider"></div>
+
+
             <!-- OPACITY -->
 
             <div class="opacity-control">
 
-                <strong>
-                    Opacity
-                </strong>
+                <div class="opacity-heading">
+                    <span>Opacity B</span>
 
-                <input
-                    id="opacityB"
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value="0.5"
-                >
+                    <strong id="opacityValue">
+                        50%
+                    </strong>
+                </div>
 
-                <span id="opacityValue">
-                    50%
-                </span>
+                <div class="opacity-slider-wrap">
+
+                    <span>0</span>
+
+                    <input
+                        id="opacityB"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.5"
+                    >
+
+                    <span>100</span>
+
+                </div>
 
             </div>
 
         </section>
 
 
-        <!-- =========================================
-             CONTROL PANEL
-        ========================================== -->
+        <!-- =================================================
+             ADVANCED CONTROLS
+        ================================================== -->
 
         <section
             id="controlPanel"
@@ -226,15 +317,32 @@ app.innerHTML = `
 
             <div class="control-panel-header">
 
-                <strong>
-                    PDF Comparison Controls
-                </strong>
+                <div class="advanced-title">
+
+                    <span class="advanced-icon">
+                        ⚙
+                    </span>
+
+                    <div>
+                        <strong>
+                            Advanced Controls
+                        </strong>
+
+                        <span>
+                            Position, scale and active layer
+                        </span>
+                    </div>
+
+                </div>
+
 
                 <button
                     id="hideControls"
                     type="button"
+                    class="collapse-button"
                 >
-                    Hide Controls ▲
+                    Hide Controls
+                    <span>▼</span>
                 </button>
 
             </div>
@@ -243,23 +351,30 @@ app.innerHTML = `
             <div class="controls">
 
 
-                <!-- =====================================
+                <!-- =================================================
                      PDF A
-                ====================================== -->
+                ================================================== -->
 
                 <div class="layer-panel">
 
-                    <div class="panel-header">
-                        <strong>PDF A</strong>
+                    <div class="layer-panel-header">
+
+                        <div class="panel-layer-name layer-a">
+                            A
+                        </div>
+
+                        <div>
+                            <strong>PDF A</strong>
+                            <span>Base document</span>
+                        </div>
+
                     </div>
 
-
-                    <!-- VALUES -->
 
                     <div class="values">
 
                         <label class="value-control">
-                            <span>X:</span>
+                            <span>X</span>
 
                             <input
                                 id="xA"
@@ -271,7 +386,7 @@ app.innerHTML = `
 
 
                         <label class="value-control">
-                            <span>Y:</span>
+                            <span>Y</span>
 
                             <input
                                 id="yA"
@@ -282,8 +397,8 @@ app.innerHTML = `
                         </label>
 
 
-                        <label class="value-control">
-                            <span>Scale:</span>
+                        <label class="value-control scale-control">
+                            <span>Scale</span>
 
                             <input
                                 id="scaleA"
@@ -298,9 +413,7 @@ app.innerHTML = `
                     </div>
 
 
-                    <!-- ZOOM -->
-
-                    <div class="control-group">
+                    <div class="control-section">
 
                         <span class="control-title">
                             Zoom
@@ -318,6 +431,7 @@ app.innerHTML = `
                             <button
                                 type="button"
                                 id="resetZoomA"
+                                class="reset-button"
                             >
                                 Reset
                             </button>
@@ -334,9 +448,7 @@ app.innerHTML = `
                     </div>
 
 
-                    <!-- POSITION -->
-
-                    <div class="control-group">
+                    <div class="control-section position-section">
 
                         <span class="control-title">
                             Position
@@ -387,23 +499,30 @@ app.innerHTML = `
                 </div>
 
 
-                <!-- =====================================
+                <!-- =================================================
                      PDF B
-                ====================================== -->
+                ================================================== -->
 
                 <div class="layer-panel">
 
-                    <div class="panel-header">
-                        <strong>PDF B</strong>
+                    <div class="layer-panel-header">
+
+                        <div class="panel-layer-name layer-b">
+                            B
+                        </div>
+
+                        <div>
+                            <strong>PDF B</strong>
+                            <span>Overlay document</span>
+                        </div>
+
                     </div>
 
-
-                    <!-- VALUES -->
 
                     <div class="values">
 
                         <label class="value-control">
-                            <span>X:</span>
+                            <span>X</span>
 
                             <input
                                 id="xB"
@@ -415,7 +534,7 @@ app.innerHTML = `
 
 
                         <label class="value-control">
-                            <span>Y:</span>
+                            <span>Y</span>
 
                             <input
                                 id="yB"
@@ -426,8 +545,8 @@ app.innerHTML = `
                         </label>
 
 
-                        <label class="value-control">
-                            <span>Scale:</span>
+                        <label class="value-control scale-control">
+                            <span>Scale</span>
 
                             <input
                                 id="scaleB"
@@ -442,9 +561,7 @@ app.innerHTML = `
                     </div>
 
 
-                    <!-- ZOOM -->
-
-                    <div class="control-group">
+                    <div class="control-section">
 
                         <span class="control-title">
                             Zoom
@@ -462,6 +579,7 @@ app.innerHTML = `
                             <button
                                 type="button"
                                 id="resetZoomB"
+                                class="reset-button"
                             >
                                 Reset
                             </button>
@@ -478,9 +596,7 @@ app.innerHTML = `
                     </div>
 
 
-                    <!-- POSITION -->
-
-                    <div class="control-group">
+                    <div class="control-section position-section">
 
                         <span class="control-title">
                             Position
@@ -531,36 +647,68 @@ app.innerHTML = `
                 </div>
 
 
-                <!-- =====================================
+                <!-- =================================================
                      ACTIVE LAYER
-                ====================================== -->
+                ================================================== -->
 
                 <div class="active-layer-control">
 
-                    <strong>
-                        Active Layer
-                    </strong>
+                    <div class="active-header">
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="activeLayer"
-                            value="A"
-                            checked
-                        >
+                        <span class="active-icon">
+                            ◉
+                        </span>
 
-                        PDF A
-                    </label>
+                        <div>
+                            <strong>
+                                Active Layer
+                            </strong>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="activeLayer"
-                            value="B"
-                        >
+                            <span>
+                                Mouse controls apply to
+                            </span>
+                        </div>
 
-                        PDF B
-                    </label>
+                    </div>
+
+
+                    <div class="layer-selector">
+
+                        <label class="layer-radio layer-radio-a">
+
+                            <input
+                                type="radio"
+                                name="activeLayer"
+                                value="A"
+                                checked
+                            >
+
+                            <span class="radio-mark"></span>
+
+                            <span>
+                                PDF A
+                            </span>
+
+                        </label>
+
+
+                        <label class="layer-radio layer-radio-b">
+
+                            <input
+                                type="radio"
+                                name="activeLayer"
+                                value="B"
+                            >
+
+                            <span class="radio-mark"></span>
+
+                            <span>
+                                PDF B
+                            </span>
+
+                        </label>
+
+                    </div>
 
                 </div>
 
@@ -569,9 +717,9 @@ app.innerHTML = `
         </section>
 
 
-        <!-- =========================================
+        <!-- =================================================
              SHOW CONTROLS
-        ========================================== -->
+        ================================================== -->
 
         <button
             id="showControls"
@@ -579,7 +727,7 @@ app.innerHTML = `
             type="button"
             hidden
         >
-            Show Controls ▼
+            ⚙ Show Controls
         </button>
 
     </div>
@@ -717,8 +865,6 @@ const MAX_SCALE = 5;
 const HOLD_DELAY = 300;
 
 const HOLD_INTERVAL = 35;
-
-const holdTimers = new Map();
 
 
 // ==================================================
@@ -895,6 +1041,9 @@ document
                     radio.value === 'A'
                         ? layerA
                         : layerB;
+
+                document.body.dataset.activeLayer =
+                    radio.value;
             }
         );
     });
@@ -1273,7 +1422,7 @@ viewer.addEventListener(
 
 
 // ==================================================
-// HOLDABLE BUTTON HELPER
+// HOLDABLE BUTTON
 // ==================================================
 
 function addHoldAction(
@@ -1368,10 +1517,8 @@ function addHoldAction(
                 event.pointerId
             );
 
-            // تنفيذ ضغطة واحدة فورًا
             action();
 
-            // ثم بدء الضغط المطول
             startHolding();
         }
     );
@@ -1694,7 +1841,7 @@ function applyInputValue(
 
 
 // ==================================================
-// X A
+// INPUTS A
 // ==================================================
 
 applyInputValue(
@@ -1709,10 +1856,6 @@ applyInputValue(
 );
 
 
-// ==================================================
-// Y A
-// ==================================================
-
 applyInputValue(
     yA,
     (value) => {
@@ -1724,10 +1867,6 @@ applyInputValue(
     }
 );
 
-
-// ==================================================
-// SCALE A
-// ==================================================
 
 applyInputValue(
     scaleA,
@@ -1752,7 +1891,7 @@ applyInputValue(
 
 
 // ==================================================
-// X B
+// INPUTS B
 // ==================================================
 
 applyInputValue(
@@ -1767,10 +1906,6 @@ applyInputValue(
 );
 
 
-// ==================================================
-// Y B
-// ==================================================
-
 applyInputValue(
     yB,
     (value) => {
@@ -1782,10 +1917,6 @@ applyInputValue(
     }
 );
 
-
-// ==================================================
-// SCALE B
-// ==================================================
 
 applyInputValue(
     scaleB,
@@ -2172,6 +2303,8 @@ function updateEmptyState() {
 // ==================================================
 // INITIAL UI
 // ==================================================
+
+document.body.dataset.activeLayer = 'A';
 
 updateLayerInformation();
 
